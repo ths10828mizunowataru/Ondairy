@@ -1,0 +1,35 @@
+[debug] [2022-11-16T08:07:22.806Z] ----------------------------------------------------------------------
+[debug] [2022-11-16T08:07:22.808Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\wataru\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2022-11-16T08:07:22.808Z] CLI Version:   11.16.1
+[debug] [2022-11-16T08:07:22.808Z] Platform:      win32
+[debug] [2022-11-16T08:07:22.808Z] Node Version:  v18.12.1
+[debug] [2022-11-16T08:07:22.809Z] Time:          Wed Nov 16 2022 17:07:22 GMT+0900 (日本標準時)
+[debug] [2022-11-16T08:07:22.809Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-11-16T08:07:22.892Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-11-16T08:07:22.892Z] > authorizing via signed-in user (run.hinode@gmail.com)
+[debug] [2022-11-16T08:07:22.892Z] [iam] checking project ih12b213-4 for permissions ["firebase.projects.get"]
+[debug] [2022-11-16T08:07:22.894Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/ih12b213-4:testIamPermissions [none]
+[debug] [2022-11-16T08:07:22.894Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/ih12b213-4:testIamPermissions x-goog-quota-user=projects/ih12b213-4
+[debug] [2022-11-16T08:07:22.894Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ih12b213-4:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-11-16T08:07:23.523Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/ih12b213-4:testIamPermissions 200
+[debug] [2022-11-16T08:07:23.523Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ih12b213-4:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-11-16T08:07:23.524Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4 [none]
+[debug] [2022-11-16T08:07:23.856Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4 200
+[debug] [2022-11-16T08:07:23.857Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4 {"projectId":"ih12b213-4","projectNumber":"988142203119","displayName":"IH12B213-4","name":"projects/ih12b213-4","resources":{"hostingSite":"ih12b213-4","realtimeDatabaseInstance":"ih12b213-4-default-rtdb","storageBucket":"ih12b213-4.appspot.com","locationId":"asia-east2"},"state":"ACTIVE","etag":"1_1a9c804d-f59d-4ce2-8b28-0da173bbcb88"}
+[info] 
+[info] === Serving from 'C:\Users\wataru\Ondairy'...
+[info] 
+[debug] [2022-11-16T08:07:23.862Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/ih12b213-4/sites 
+[debug] [2022-11-16T08:07:24.710Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/ih12b213-4/sites 200
+[debug] [2022-11-16T08:07:24.711Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/ih12b213-4/sites {"sites":[{"name":"projects/ih12b213-4/sites/ih12b213-4","defaultUrl":"https://ih12b213-4.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2022-11-16T08:07:24.711Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4/webApps/-/config [none]
+[debug] [2022-11-16T08:07:25.692Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4/webApps/-/config 200
+[debug] [2022-11-16T08:07:25.693Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4/webApps/-/config {"projectId":"ih12b213-4","appId":"1:988142203119:web:eea1669d6d6401350e2b1a","databaseURL":"https://ih12b213-4-default-rtdb.firebaseio.com","storageBucket":"ih12b213-4.appspot.com","locationId":"asia-east2","apiKey":"AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc","authDomain":"ih12b213-4.firebaseapp.com","messagingSenderId":"988142203119","measurementId":"G-C80M7XW650"}
+[debug] [2022-11-16T08:07:25.701Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4 [none]
+[debug] [2022-11-16T08:07:26.161Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4 200
+[debug] [2022-11-16T08:07:26.161Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ih12b213-4 {"projectId":"ih12b213-4","projectNumber":"988142203119","displayName":"IH12B213-4","name":"projects/ih12b213-4","resources":{"hostingSite":"ih12b213-4","realtimeDatabaseInstance":"ih12b213-4-default-rtdb","storageBucket":"ih12b213-4.appspot.com","locationId":"asia-east2"},"state":"ACTIVE","etag":"1_1a9c804d-f59d-4ce2-8b28-0da173bbcb88"}
+[info] i  hosting[ih12b213-4]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
+[info] +  hosting[ih12b213-4]: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[info] i  hosting: ::1 - - [16/Nov/2022:08:07:34 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [16/Nov/2022:08:07:34 +0000] \"GET / HTTP/1.1\" 200 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36\""}}
+[info] i  hosting: ::1 - - [16/Nov/2022:08:07:34 +0000] "GET /__/firebase/init.js?useEmulator=true HTTP/1.1" 200 - "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"::1 - - [16/Nov/2022:08:07:34 +0000] \"GET /__/firebase/init.js?useEmulator=true HTTP/1.1\" 200 - \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36\""}}
