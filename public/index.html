@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome to Firebase Hosting</title>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css"/>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
@@ -52,6 +56,23 @@
     measurementId: "G-C80M7XW650"
   };
   firebase.initializeApp(config);
+
+  firebase.initializeApp(firebaseConfig);
+
+  let uiConfig = {
+      callbacks: {
+          signInSuccessWithAuthResult: function () {
+              console.log("ログイン成功")
+              return true;
+          },
+      },
+      signInOptions: [
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      ],
+  };
+
+  let ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', uiConfig);
 </script>
 
   </head>
