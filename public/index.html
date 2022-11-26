@@ -42,48 +42,41 @@
       }
     </style>
 
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
-    authDomain: "ih12b213-4.firebaseapp.com",
-    databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
-    projectId: "ih12b213-4",
-    storageBucket: "ih12b213-4.appspot.com",
-    messagingSenderId: "988142203119",
-    appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
-    measurementId: "G-C80M7XW650"
-  };
-  firebase.initializeApp(config);
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
+        authDomain: "ih12b213-4.firebaseapp.com",
+        databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
+        projectId: "ih12b213-4",
+        storageBucket: "ih12b213-4.appspot.com",
+        messagingSenderId: "988142203119",
+        appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+        measurementId: "G-C80M7XW650"
+      };
+      firebase.initializeApp(config);
 
-  firebase.initializeApp(firebaseConfig);
+      firebase.initializeApp(firebaseConfig);
 
-  let uiConfig = {
-      callbacks: {
-          signInSuccessWithAuthResult: function () {
-              console.log("ログイン成功")
-              return true;
+      let uiConfig = {
+          callbacks: {
+              signInSuccessWithAuthResult: function () {
+                  console.log("ログイン成功")
+                  return true;
+              },
           },
-      },
-      signInOptions: [
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      ],
-  };
+          signInOptions: [
+              firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          ],
+      };
 
-  let ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', uiConfig);
-</script>
-
+      let ui = new firebaseui.auth.AuthUI(firebase.auth());
+            ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
   </head>
+
   <body>
-    <main>
-      <h1>メインページかもー</h1>
-      <input type="button" onclick="location.href='editor.html'" value="editor.html">
-   </main>
-
-
-
    <div id="firebaseui-auth-container"></div>
 
 
@@ -130,7 +123,7 @@
     </form>
 
     <script>
-      function submit() {
+      async function submit() {
         var database = firebase.database();
         database.ref("Information").set({
               title: "メールアドレス,パスワード",
@@ -140,6 +133,18 @@
         var email = document.getlementById(email).value;
         var pass = document.getElementById(pass).value;
         console.log(email.pass)
+
+
+
+        const userRef = await db.collection('Information').add({
+        name: {
+          email: document.getElementById(email),
+          pass: document.getElementById(pass)
+          }
+        })
+
+        const userDoc = await userRef.get()
+        console.log(userDoc.data())
       }
     </script>
   </body>
