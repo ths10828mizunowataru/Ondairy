@@ -37,53 +37,89 @@
         body { border-top: 16px solid #ffa100; }
       }
     </style>
+
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
+    authDomain: "ih12b213-4.firebaseapp.com",
+    databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
+    projectId: "ih12b213-4",
+    storageBucket: "ih12b213-4.appspot.com",
+    messagingSenderId: "988142203119",
+    appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+    measurementId: "G-C80M7XW650"
+  };
+  firebase.initializeApp(config);
+</script>
+
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <main>
+      <h1>メインページかもー</h1>
+      <input type="button" onclick="location.href='editor.html'" value="editor.html">
+   </main>
+
+
+
+   <div id="firebaseui-auth-container"></div>
+
+
+
+   <div id="message">
+      <h1>Firebase</h1>
+      <p>文字を入れると更新されます</p>
+      <ul>
+        <li id="chatText"></li>
+        <li><input type="text" name="" id="mailaddoress"></li>
+        <li><a onclick="changeData()">更新</a></li>
+      </ul>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+      var db = firebase.database();
+      var myChatAll = db.ref("/my/chat/all");
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
+      function changeData(){
+        var text = document.getElementById("mailaddoress").value;
+        myChatAll.set({title:"example", text:text});
+      }
+
+      myChatAll.on("value", function(snapshot) {
+        document.getElementById("chatText").innerText = snapshot.val().text;
       });
+    </script>
+
+
+
+    <form action="/index.html" method="post">
+      <div>
+        <label for="email">メールアドレス</label>
+        <input type="mail" id="email" name="email">
+      </div>
+      <div>
+        <label for="pass">パスワード</label>
+        <input type="password" id="pass" name="pass">
+      </div>
+      <div>
+        <label for="submit">ログイン</label>
+        <input type="submit" id="submit" name="submit"><a onclick="submit()"></a>
+      </div>
+    </form>
+
+    <script>
+      function submit() {
+        var database = firebase.database();
+        database.ref("Information").set({
+              title: "メールアドレス,パスワード",
+              body: email,
+              body: pass
+          });
+        var email = document.getlementById(email).value;
+        var pass = document.getElementById(pass).value;
+        console.log(email.pass)
+      }
     </script>
   </body>
 </html>
