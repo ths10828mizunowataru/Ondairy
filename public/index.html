@@ -29,6 +29,15 @@
 
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <script>
+      var admin = require("firebase-admin");
+
+      var serviceAccount = require("path/to/serviceAccountKey.json");
+
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com"
+      });
+
       // Initialize Firebase
       var config = {
         apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
@@ -135,7 +144,7 @@
 
 
         // Add a new document in collection "cities"
-        db.collection("Information").doc("LA").set({
+        db.collection("Information").doc("NO4WkkRGyjoUKO6UDYU4").set({
             name: "Los Angeles",
             state: "CA",
             country: "USA"
