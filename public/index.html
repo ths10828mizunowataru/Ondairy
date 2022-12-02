@@ -3,11 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css"/>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <title>Ondairy</title>
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
@@ -29,15 +25,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <script>
-      var admin = require("firebase-admin");
-
-      var serviceAccount = require("path/to/serviceAccountKey.json");
-
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com"
-      });
-
       // Initialize Firebase
       var config = {
         apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
@@ -50,9 +37,10 @@
         measurementId: "G-C80M7XW650"
       };
       firebase.initializeApp(config);
+    </script>
 
-      firebase.initializeApp(firebaseConfig);
-
+    <!--Authenticationのサンプルの奴-->
+    <script>
       let uiConfig = {
           callbacks: {
               signInSuccessWithAuthResult: function () {
@@ -68,93 +56,135 @@
       let ui = new firebaseui.auth.AuthUI(firebase.auth());
             ui.start('#firebaseui-auth-container', uiConfig);
     </script>
+
+
+    <!--canvasのサンプルの奴-->
+    <script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
+
   </head>
 
   <body>
+
    <div id="firebaseui-auth-container"></div>
 
 
 
-   <div id="message">
-      <h1>Firebase</h1>
-      <p>文字を入れると更新されます</p>
-      <ul>
-        <li id="chatText"></li>
-        <li><input type="text" name="" id="mailaddoress"></li>
-        <li><a onclick="changeData()">更新</a></li>
-      </ul>
-    </div>
-
-    <script>
-      var db = firebase.database();
-      var myChatAll = db.ref("/my/chat/all");
-
-      function changeData(){
-        var text = document.getElementById("mailaddoress").value;
-        myChatAll.set({title:"example", text:text});
-      }
-
-      myChatAll.on("value", function(snapshot) {
-        document.getElementById("chatText").innerText = snapshot.val().text;
-      });
-    </script>
-
-
-
-    <form action="/index.html" method="post">
+   <form action="/index.html" method="post">
       <div>
         <label for="email">メールアドレス</label>
         <input type="mail" id="email" name="email">
       </div>
       <div>
         <label for="pass">パスワード</label>
-        <input type="password" id="pass" name="pass">
+        <input type="password" id="pass" name="pass" autocomplete="off">
       </div>
       <div>
-        <label for="submit">ログイン</label>
-        <input type="submit" id="submit" name="submit"><a onclick="submit()"></a>
+        <button type="button" id="submit" name="submit">ログイン</button>
       </div>
     </form>
 
+
+
+    <canvas id="myCanvas"></canvas>
+
+
+
     <script>
-      function submit() {
-        /*var database = firebase.database();
-        database.ref("Information").set({
+      //入力内容をfirestoreに渡す
+      document.getElementById("submit").addEventListener("click", () => {
+        var db = firebase.firestore();
+
+        db.collection("Menber_Info").doc().set({
               title: "メールアドレス,パスワード",
-              body: email,
-              body: pass
+              email: document.getElementById("email").value,
+              pass: document.getElementById("pass").value,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .then(() => {
+              console.log("Document successfully written!");
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
           });
-        var email = document.getlementById(email).value;
-        var pass = document.getElementById(pass).value;
-        console.log(email.pass)
+      });
+
+      /*
+      document.getElementById("re-submit").addEventListener("click", () => {
+        var db = firebase.firestore();
+
+        db.collection("顧客のドキュメント名を指定").doc().update({
+              title: "メールアドレス,パスワードリセット",
+              email: document.getElementById("email").value,
+              pass: document.getElementById("pass").value
+          })
+          .then(() => {
+              console.log("Document successfully written!");
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
+          });
+      })
+      */
 
 
 
-        const userRef = db.collection('Information').add({
-        name: {
-          email: document.getElementById(email),
-          pass: document.getElementById(pass)
-          }
-        })
+      //3dのデータを読み込む
+      // ページの読み込みを待つ
+      window.addEventListener('DOMContentLoaded', init);
 
-        const userDoc = userRef.get()
-        console.log(userDoc.data())
-        */
+      function init() {
+        // サイズを指定
+        const width = 960;
+        const height = 540;
 
-
-
-        // Add a new document in collection "cities"
-        db.collection("Information").doc("NO4WkkRGyjoUKO6UDYU4").set({
-            name: "Los Angeles",
-            state: "CA",
-            country: "USA"
-        })
-        .then(() => {
-            console.log("Document successfully written!");
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
+        // レンダラーを作成
+        const canvasElement = document.querySelector('#myCanvas');
+        const renderer = new THREE.WebGLRenderer({
+          canvas: canvasElement,
         });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(width, height);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
+        // カメラの初期座標を設定
+        camera.position.set(2, 2, 2);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera, canvasElement);
+        controls.target.set(0, 0, 0);
+        controls.update();
+
+        // 平行光源を作成
+        const directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+        // 環境光を追加
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(ambientLight);
+
+        // GLTF形式のモデルデータを読み込む
+        const loader = new THREE.GLTFLoader();
+        // GLTFファイルのパスを指定
+        loader.load('./scene.gltf', (gltf) => {
+          // 読み込み後に3D空間に追加
+          const model = gltf.scene;
+          scene.add(model);
+        });
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
       }
     </script>
   </body>
