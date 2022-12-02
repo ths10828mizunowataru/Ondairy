@@ -65,6 +65,26 @@
     <script defer src="/__/firebase/init.js"></script>
 
 
+
+    <!--Storageのサンプルの奴
+      https://www.topgate.co.jp/firebase06-cloud-storage-for-firebase
+      https://www.topgate.co.jp/firebase07-security-rule
+    -->
+    <script defer src="/__/firebase/5.3.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/5.3.1/firebase-storage.js"></script>
+    <script defer src="/__/firebase/5.3.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <style>
+      .image{
+        border: 1px solid black;
+        width: 128px;
+        height: 128px;
+        background: no-repeat;
+      }
+    </style>
+
+
+
     <!--canvasのサンプルの奴
       https://ics.media/tutorial-three/model_basic/
     -->
@@ -119,6 +139,67 @@
 
 
 
+    <!--Storageのサンプルの奴-->
+    <a href="sine-in.html">Sine in</a>
+    <input type="button" id="sineout" value="Sine out">
+    <ul>
+      <li id="bucket">ここにバケット名が表示されます</li>
+      <li id="filename1">Firestore</li>
+      <li id="filename2">FirebaseAuthentication</li>
+    </ul>
+    <div id="imageFirestore" class="image"></div>
+    <div id="imageFirebaseAuthentication" class="image"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+
+    <script>
+
+      var buttonSineOut = document.getElementById("sineout");
+      var sineout = function(){
+        firebase.auth().signOut().then(function() {
+            console.log("Signed out.");
+        });
+      };
+      buttonSineOut.addEventListener("click", sineout);
+
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          var app = firebase.app();
+          var storage = firebase.storage();
+          var storageRef = storage.ref();
+          document.getElementById('bucket').innerHTML = 'Bucket: ' + storageRef.bucket;
+          var imagesRef = storageRef.child('images');
+          var imgFirestoreRef = imagesRef.child('Besi.003_baseColor.jpeg');
+          var imgFirebaseAuthRef = imagesRef.child('lambert2_baseColor.jpeg');
+          // ファイルのURLを取得する
+          imgFirestoreRef.getDownloadURL().then(function(url){
+            var image = document.getElementById("imageFirestore");
+            image.style.backgroundImage = "url("+url+")";
+            document.getElementById('filename1').innerHTML = '<a href="' + url + '">' + imgFirestoreRef.name + '</a>';
+          }).catch(function(error) {
+            document.getElementById('filename2').innerHTML = error.message;
+            console.log(error);
+          });
+
+          // ファイルのURLを取得する
+          imgFirebaseAuthRef.getDownloadURL().then(function(url){
+            var image = document.getElementById("imageFirebaseAuthentication");
+            image.style.backgroundImage = "url("+url+")";
+            document.getElementById('filename2').innerHTML = '<a href="' + url + '">' + imgFirebaseAuthRef.name + '</a>';
+          }).catch(function(error) {
+            document.getElementById('filename2').innerHTML = error.message;
+            console.log(error);
+          });
+        } catch (e) {
+          console.error(e);
+          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+
+
+
+    <!--FireStore-->
     <form action="/index.html" method="post">
       <div>
         <label for="email">メールアドレス</label>
