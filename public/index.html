@@ -95,8 +95,12 @@
   </head>
 
   <body>
+    <a href="index.html"><button>トップ画面</button></a>
     <a href="login.html"><button>ログイン</button></a>
     <a href="editor-sample.html"><button>編集画面</button></a>
+
+
+
     <!--Authenticationのサンプルの奴
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
@@ -131,7 +135,7 @@
           }
         },
         signInFlow: 'popup',
-        signInSuccessUrl: './success.html',
+        signInSuccessUrl: './login.html',
         signInOptions: [
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -157,6 +161,44 @@
         <button type="button" id="submit" name="submit">ログイン</button>
       </div>
     </form>
+
+    <script>
+      //入力内容をfirestoreに渡す
+      document.getElementById("submit").addEventListener("click", () => {
+        var db = firebase.firestore();
+
+        db.collection("Menber_Info").doc().set({
+              title: "メールアドレス,パスワード",
+              email: document.getElementById("email").value,
+              pass: document.getElementById("pass").value,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .then(() => {
+              console.log("Document successfully written!");
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
+          });
+      });
+
+      /*
+      document.getElementById("re-submit").addEventListener("click", () => {
+        var db = firebase.firestore();
+
+        db.collection("顧客のドキュメント名を指定").doc().update({
+              title: "メールアドレス,パスワードリセット",
+              email: document.getElementById("email").value,
+              pass: document.getElementById("pass").value
+          })
+          .then(() => {
+              console.log("Document successfully written!");
+          })
+          .catch((error) => {
+              console.error("Error writing document: ", error);
+          });
+      })
+      */
+    </script>
     -->
 
 
