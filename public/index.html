@@ -95,7 +95,9 @@
   </head>
 
   <body>
-    <!--Authenticationのサンプルの奴-->
+    <a href="login.html"><button>ログイン</button></a>
+    <a href="editor-sample.html"><button>編集画面</button></a>
+    <!--Authenticationのサンプルの奴
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
 
@@ -116,12 +118,9 @@
     </script>
 
     <script type="text/javascript">
-      var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-<<<<<<< HEAD
       let ui = new firebaseui.auth.AuthUI(firebase.auth());
             ui.start('firebaseui-auth-container', uiConfig);
-=======
+
       var uiConfig = {
         callbacks: {
           signInSuccessWithAuthResult: function(authResult, redirectUrl) {
@@ -139,8 +138,26 @@
         ],
       };
       ui.start('#firebaseui-auth-container', uiConfig);
->>>>>>> 597d57192117cc6eaecbcd7b615c8f813830cd22
     </script>
+    -->
+
+
+
+    <!--FireStore
+    <form action="/index.html" method="post">
+      <div>
+        <label for="email">メールアドレス</label>
+        <input type="mail" id="email" name="email">
+      </div>
+      <div>
+        <label for="pass">パスワード</label>
+        <input type="password" id="pass" name="pass" autocomplete="off">
+      </div>
+      <div>
+        <button type="button" id="submit" name="submit">ログイン</button>
+      </div>
+    </form>
+    -->
 
 
 
@@ -204,67 +221,12 @@
 
 
 
-    <!--FireStore-->
-    <form action="/index.html" method="post">
-      <div>
-        <label for="email">メールアドレス</label>
-        <input type="mail" id="email" name="email">
-      </div>
-      <div>
-        <label for="pass">パスワード</label>
-        <input type="password" id="pass" name="pass" autocomplete="off">
-      </div>
-      <div>
-        <button type="button" id="submit" name="submit">ログイン</button>
-      </div>
-    </form>
-
-
-
-    <!--canvasのサンプルの奴-->
+    <!--canvasのサンプルの奴
     <canvas id="myCanvas"></canvas>
 
 
 
     <script>
-      //入力内容をfirestoreに渡す
-      document.getElementById("submit").addEventListener("click", () => {
-        var db = firebase.firestore();
-
-        db.collection("Menber_Info").doc().set({
-              title: "メールアドレス,パスワード",
-              email: document.getElementById("email").value,
-              pass: document.getElementById("pass").value,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          })
-          .then(() => {
-              console.log("Document successfully written!");
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
-          });
-      });
-
-      /*
-      document.getElementById("re-submit").addEventListener("click", () => {
-        var db = firebase.firestore();
-
-        db.collection("顧客のドキュメント名を指定").doc().update({
-              title: "メールアドレス,パスワードリセット",
-              email: document.getElementById("email").value,
-              pass: document.getElementById("pass").value
-          })
-          .then(() => {
-              console.log("Document successfully written!");
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
-          });
-      })
-      */
-
-
-
       //3dのデータを読み込む
       // ページの読み込みを待つ
       window.addEventListener('DOMContentLoaded', init);
@@ -321,6 +283,6 @@
           requestAnimationFrame(tick);
         }
       }
-    </script>
+    </script>-->
   </body>
 </html>
