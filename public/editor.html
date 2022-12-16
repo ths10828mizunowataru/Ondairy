@@ -5,12 +5,9 @@
     <title>Ondairyu</title>
     <!--　 fabric.jsの読込み　-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
+    
 </head>
 <body>
-    <a href="index.html"><button>トップ画面</button></a>
-    <a href="login.html"><button>ログイン</button></a>
-    <a href="editor.html"><button>編集画面</button></a>
-
     <div id="Circle" onclick="AddCircle()">●</div>
     <div id="Rect" onclick="AddRect()">■</div>
     <div id="Ellipse" onclick="AddEllipse()">●</div>
@@ -36,6 +33,7 @@
         <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
     </div>
     <!--　ダウンロード　-->
+    <h3>イラストをダウンロード</h3>
     <button type="button" onclick="Download()">ダウンロード</button>
     <!--　canvas要素を用意　-->
     <canvas id="canvas" width="1920px" height="1080px" style="border:1px solid;"></canvas>
