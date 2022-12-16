@@ -32,6 +32,7 @@
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "firebase/app";
       import { getAnalytics } from "firebase/analytics";
+      import 'firebase/firestore';
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -70,7 +71,7 @@
   <body>
     <a href="index.html"><button>トップ画面</button></a>
     <a href="login.html"><button>ログイン</button></a>
-    <a href="editor-sample.html"><button>編集画面</button></a>
+    <a href="editor.html"><button>編集画面</button></a>
 
 
 
@@ -82,7 +83,7 @@
       </div>
       <div>
       <label for="pass">パスワード</label>
-      <input type="password" id="pass" name="pass" autocomplete="off">
+      <input type="password" id="pass" name="pass" autocomplete="on">
       </div>
       <div>
       <button type="button" id="submit">ログイン</button>
