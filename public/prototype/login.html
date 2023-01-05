@@ -1,54 +1,47 @@
 <!DOCTYPE html>
-<html lang="jp" >
-	<head>
-		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
-		<title>login</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="" >
-		<link rel="StyleSheet" href="login.css" />
+<html lang="jp">
 
-	</head>
-	<body>
-		<header>
-			<object data="header.html" width="100%" height="270px" alt="test">利用できません。</object>
-		</header>
-		<input type="text" class="textinput">
+<head>
+	<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+	<title>login</title>
+	<link rel="StyleSheet" href="common.css" />
+	<link rel="StyleSheet" href="login.css" />
 
-		<div id="content-container" >
-				<div id="group_7"  >
-					<div id="______ek1" >
-						<span>ログイン</span>
-					</div>
-					<div id="________" >
-						<span>メールアドレス</span>
-					</div>
+</head>
+
+<body>
+	<header>
+		<object data="header.html" width="100%" height="270px" alt="test">利用できません。</object>
+	</header>
+
+	<main>
+		<div>
+			<h1>ログイン</h1>
+			<form>
+				<dev>
+					<p>メールアドレス</p>
 					<input type="text" class="textinput">
-
-					<div id="_______ek2" >
-						<span>パスワード</span>
-					</div>
+				</dev>
+				<dev>
+					<p>パスワード</p>
 					<input type="text" class="textinput">
-
-					<div id="_____" >
-						<span>ログイン</span>
-					</div>
-					<input type="text" class="textinput">
-
-					<div id="_______________" >
-						<span>パスワードを忘れた方はこちら</span>
-					</div>
-					<div id="line_1"  ></div>
-					<div id="__________________" >
-						<span>アカウントをお持ちではないですか？</span>
-					</div>
-					<div id="_________" >
-						<span>アカウントを作成</span>
-					</div>
-
-				</div>
-
-			</div>
+				</dev>
+				<br>
+				<button class="enterbutton" onclick="console.log('クリックされた')">ログイン</button>
+			</form>
 		</div>
-		<script>var specialChars = document.querySelectorAll("span.char"); for(var c=0; c<specialChars.length; c++){ specialChars[c].innerHTML = decodeURIComponent(specialChars[c].innerHTML); }</script>
-	</body>
+		<div id="subcontents">
+			<h3>パスワードを忘れた方はこちら</h3>
+
+			<hr>
+			<h2>アカウントをお持ちではないですか？</h2>
+			<a href="">
+				<h1>アカウントを作成</h1>
+			</a>
+		</div>
+
+	</main>
+
+</body>
+
 </html>
