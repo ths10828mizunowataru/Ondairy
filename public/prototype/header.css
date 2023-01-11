@@ -1,0 +1,110 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	font-family: "Arial";
+	overflow-x: hidden;
+	height: 270px;
+}
+
+img {
+	position: absolute;
+	display: block;
+	margin: 0px;
+	border: none;
+	padding: 0px;
+}
+
+#header_main{
+	height: 220px;
+}
+
+#header_main_top{
+	height: 60%;
+	Display: flex;
+}
+#logo {
+    display: flex;
+    width: 70%;
+    padding-left: 50px;
+    padding-top: 50px;
+}
+#ondaily{
+	font-family: M PLUS 1;
+	font-size: 48px;
+	font-weight:regular;
+	line-height: 3px;
+	letter-spacing: 0em;
+	color:#5A6382;
+}
+#mytool{
+	width: 30%;
+	Display: flex;
+	padding-top: 30px;
+}
+.mytools{
+	width: 200px;
+	Display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+#header_main_under{
+	height: 40%;
+	width: 100%;
+	Display: flex;
+}
+#pagemenu{
+	width: 70%;
+	Display: flex;
+	align-items: center;
+	padding-left: 50px;
+	padding-right: 50px;
+
+	font-family: M PLUS 1;
+	font-size: 25px;
+	font-weight:regular;
+	line-height: 3px;
+	letter-spacing: 0em;
+	color:#5A6382;
+}
+.page{
+	flex-grow: 1; 
+	text-align: center;
+}
+#edit{
+	width: 30%;
+	Display: flex;
+	padding-top: 15px;
+}
+#edit div#under {
+	font-family: M PLUS 1;
+	font-size: 25px;
+	font-weight:regular;
+	line-height: 3px;
+	letter-spacing: 0em;
+	color:#5A6382;
+}
+#edit div#top{
+	font-family: M PLUS 1;
+	font-size: 16px;
+	font-weight:regular;
+	line-height: 3px;
+	letter-spacing: 0em;
+	color:#5A6382;
+}
+
+#header_sub{
+	height: 50px;
+	Display: flex;
+	background-color: #F2F2F2;
+}
+#banner{
+	width: 90%;
+}
+#sns{
+	Display: flex;
+	width: 10%;
+	padding-right: 200px;
+}
+#sns div{
+	width: 25%;
+}

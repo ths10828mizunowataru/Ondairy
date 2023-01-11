@@ -1,0 +1,35 @@
+#contents{
+    width: 50%;
+}
+.customer{
+    display: flex;
+}
+.customer_a{
+    width: 30%;
+    text-align: left;
+}
+.customer_b{
+    width: 70%;
+    text-align: left;
+}
+.cartitem{
+    width: 50%;
+    display: flex;
+}
+.cartitem_image{
+    width: 30%;
+}
+.cartitem_image img{
+    width: 100%;
+}
+.cartitem_data{
+    padding-left: 50px;
+    width: 70%;
+    height: 100%;
+}
+.cartitem_data h4{
+    text-align: left;
+}
+.cartitem_data hr{
+    background: black;
+}

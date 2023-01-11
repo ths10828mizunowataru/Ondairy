@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Ondairy</title>
+    <title>Ondairyu</title>
     <!--　 fabric.jsの読込み　-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
     
@@ -22,9 +22,9 @@
         <h3>色変更</h3>
         <input type="color" id = "Color" onchange="changeColor()">
     </div>
-    <!--　サイズ変更　-->
+    <!--　線の太さ変更　-->
     <div id="SizeController">
-        <h3>サイズ変更</h3>
+        <h3>線の太さ変更</h3>
         <input type="range" id="SizeSlideBar" min="0" max="100" step="1" onchange="changeSize()">
     </div>
     <!--　アクティブオブジェクトの角度変更　-->
@@ -32,12 +32,13 @@
         <h3>角度変更</h3>
         <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
     </div>
+    <!--　ダウンロード　-->
+    <h3>イラストをダウンロード</h3>
+    <button type="button" onclick="Download()">ダウンロード</button>
     <!--　canvas要素を用意　-->
     <canvas id="canvas" width="1920px" height="1080px" style="border:1px solid;"></canvas>
-    
     <!--　テスト処理記述場　-->
     <script type="text/javascript">
-
 
     const AngleSlideBar = document.getElementById("AngleSlideBar");
 
@@ -45,7 +46,6 @@
 
     //Canvasオブジェクトを作成
     var canvas = new fabric.Canvas('canvas');
-
 
     //以下処理
 
