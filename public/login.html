@@ -10,8 +10,7 @@
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
       import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-      import { getAuth } from "firebase/auth";
-      import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+      import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -36,7 +35,7 @@
 
 
       //入力内容をfirestoreに渡す
-      document.getElementById("submit").addEventListener("click", function()  {
+      document.getElementById("login").addEventListener("click", function()  {
           addDoc(collection(db, "Menber_Info"), {
                 title: "メールアドレス,パスワード",
                 email: document.getElementById("email").value,
@@ -50,10 +49,10 @@
         });
       });
 
-
-      createUserWithEmailAndPassword(auth, email, password)
+      document.getElementById("submit").addEventListener("click", function()  {
+        createUserWithEmailAndPassword(auth, document.getElementById("email").value, document.getElementById("pass").value)
         .then((userCredential) => {
-          // Signed in 
+          // Signed in
           const user = userCredential.user;
           console.log("successfully login");
           // ...
@@ -61,8 +60,10 @@
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log("login error");
           // ..
         });
+      });
     </script>
 
 
@@ -93,7 +94,8 @@
       <input type="password" id="pass" name="pass" autocomplete="on">
       </div>
       <div>
-      <button type="button" id="submit">ログイン</button>
+      <button type="button" id="login">ログイン</button>
+      <button type="button" id="submit">新規登録</button>
       </div>
     </form>
 
@@ -125,5 +127,6 @@
     <!--Authenticationのサンプルの奴-->
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
+
   </body>
 </html>
