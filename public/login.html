@@ -32,7 +32,8 @@
       const analytics = getAnalytics(app);
       const db = getFirestore(app);
       const auth = getAuth(app);
-
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
       //入力内容をfirestoreに渡す
       document.getElementById("login").addEventListener("click", function()  {
@@ -49,21 +50,29 @@
         });
       });
 
-      document.getElementById("submit").addEventListener("click", function()  {
-        createUserWithEmailAndPassword(auth, document.getElementById("email").value, document.getElementById("pass").value)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log("successfully login");
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log("login error");
-          // ..
-        });
+      ui.start('#firebaseui-auth-container', {
+        signInOptions: [
+          {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            requireDisplayName: true
+          }
+        ]
       });
+
+      let uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function () {
+                    console.log("ログイン成功")
+                    return true;
+                },
+            },
+            signInOptions: [
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            ],
+        };
+
+        let ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', uiConfig);
     </script>
 
 
@@ -73,9 +82,6 @@
     <!-- <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" /> -->
   </head>
-
-
-
   <body>
     <a href="index.html"><button>トップ画面</button></a>
     <a href="login.html"><button>ログイン</button></a>
@@ -95,7 +101,7 @@
       </div>
       <div>
       <button type="button" id="login">ログイン</button>
-      <button type="button" id="submit">新規登録</button>
+      <button id="submit">新規登録</button>
       </div>
     </form>
 
@@ -126,7 +132,6 @@
 
     <!--Authenticationのサンプルの奴-->
     <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>
 
   </body>
 </html>
