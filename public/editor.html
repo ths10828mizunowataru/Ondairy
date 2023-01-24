@@ -32,9 +32,13 @@
         <h3>角度変更</h3>
         <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
     </div>
+    <!--　マスクを選択　-->
+    <h3>マスクの種類を選択</h3>
+    <button type="button" onclick="uretan()">ウレタンマスク</button>
+    <button type="button" onclick="fusyokufu()">不織布マスク</button>
     <!--　ダウンロード　-->
     <h3>イラストをダウンロード</h3>
-    <button type="button" onclick="Download()">ダウンロード</button>
+    <a id="download" href="#" download="canvas.jpg">ダウンロード</a> 
     <!--　canvas要素を用意　-->
     <canvas id="canvas" width="1920px" height="1080px" style="border:1px solid;"></canvas>
     <!--　テスト処理記述場　-->
