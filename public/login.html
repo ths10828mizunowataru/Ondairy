@@ -6,13 +6,25 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <title>Ondairy</title>
 
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/9.14.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.14.0/firebase-performance-compat.js"></script>
+
     <script type="module" defer>
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
       import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js"
-
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,11 +49,11 @@
       const auth = getAuth(app);
       var firebase = require('firebase');
       var firebaseui = require('firebaseui');
-      // Initialize the FirebaseUI Widget using Firebase.
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
       //入力内容をfirestoreに渡す
-      document.getElementById("submit").addEventListener("click", function()  {
+      var form = document.querySelector('form');
+      form.addEventListener("click", function()  {
         const docRef = addDoc(collection(db, "Menber_Info"), {
                 title: "メールアドレス,パスワード",
                 email: document.getElementById("email").value,
@@ -54,7 +66,6 @@
             console.error("Error writing document: ", error);
         });
       });
-
 
       //データ更新
       /*
@@ -75,8 +86,11 @@
       })
       */
 
-      /*Authenticationのサンプルの奴
-      https://www.topgate.co.jp/firebase05-firebase-authentication*/
+      /*
+      Authenticationのサンプル
+      https://www.topgate.co.jp/firebase05-firebase-authentication
+      https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
+      */
       //ログイン認証
       // document.getElementById("submit").addEventListener("click", member_submit);
 
@@ -130,25 +144,17 @@
     <a href="editor.html"><button>編集画面</button></a>
 
     <!--FireStore-->
-    <form action="" method="post">
-      <div>
-        <label for="email">メールアドレス</label>
-        <input type="email" id="email" name="email">
-      </div>
-      <div>
-        <label for="pass">パスワード</label>
-        <input type="password" id="pass" name="pass" autocomplete="on">
-      </div>
-      <div>
-        <button type="button" id="login">ログイン</button>
-        <button type="submit" id="submit">新規登録</button>
-        <button type="button" id="login-view">ログイン状況表示</button>
-      </div>
+    <form>
+      <label for="email">メールアドレス</label>
+      <input type="email" id="email" name="email">
+      <label for="pass">パスワード</label>
+      <input type="password" id="pass" name="pass" autocomplete="on">
+      <button type="button" id="login">ログイン</button>
+      <button type="submit" id="submit">新規登録</button>
+      <button type="button" id="login-view">ログイン状況表示</button>
     </form>
 
-    <!--Authenction
-    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
-    -->
+    <!--firebase ui-->
     <div id="firebaseui-auth-container"></div>
 
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
