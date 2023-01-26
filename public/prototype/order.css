@@ -5,7 +5,7 @@
     display: flex;
 }
 .customer_a{
-    width: 30%;
+    width: 40%;
     text-align: left;
 }
 .customer_b{
@@ -30,6 +30,11 @@
 .cartitem_data h4{
     text-align: left;
 }
-.cartitem_data hr{
-    background: black;
+
+
+hr{
+	width: 80%;
+	height: 1px;
+	background-color: rgba(14, 14, 14, 0.322);
+	border: 0px;
 }
