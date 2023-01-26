@@ -8,4 +8,8 @@ const firebaseConfig = {
     appId: "1:988142203119:web:4df2ef69aa5b5baa0e2b1a",
     measurementId: "G-JEE9VSE0DL"
 };
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);    
+    let downloadEle = document.createElement("a");
+      downloadEle.href = canvas.toDataURL("image/png");
+      downloadEle.download = "canvas.png";
+      downloadEle.click();
