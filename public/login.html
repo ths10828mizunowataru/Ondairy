@@ -4,27 +4,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Ondairy</title>
-      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+      <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 
-      <!-- update the version number as needed -->
-      <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
-      <!-- include only the Firebase features as you need -->
-      <script defer src="/__/firebase/9.14.0/firebase-auth-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-database-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-firestore-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-functions-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-messaging-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-storage-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-analytics-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-remote-config-compat.js"></script>
-      <script defer src="/__/firebase/9.14.0/firebase-performance-compat.js"></script>
 
       <script type="module" defer>
         // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js"
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -43,25 +29,57 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
 
-        //入力内容をfirestoreに渡す
-        var form = document.querySelector('form');
-        form.addEventListener("click", function()  {
-          const docRef = addDoc(collection(db, "Menber_Info"), {
-                  title: "メールアドレス,パスワード",
-                  email: document.getElementById("email").value,
-                  pass: document.getElementById("pass").value,
-                  timestamp: Date.now()
-            }).then(() => {
-              console.log("Document successfully written!");
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
+        //ボタンを押すとログインする
+        document.getElementById("login").addEventListener("click", () => {
+            const email = document.getElementById("email").value
+            const password = document.getElementById("pass").value
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user
+                    console.log(user);
+                })
+                .catch((error) => {
+                    const errorCode = error.code
+                    const errorMessage = error.message
+                })
+
+        })
+
+          document
+            .getElementById("google")
+            .addEventListener("click", () => {
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+                        // The signed-in user info.
+                        const user = result.user
+                        console.log(user)
+
+                    }).catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        const email = error.customData.email;
+                        // The AuthCredential type that was used.
+                        const credential = GoogleAuthProvider.credentialFromError(error);
+                    })
+            })
+
+
+          onAuthStateChanged(auth, (user) => {
+              if (user) {
+                  // 認証状態だったら
+                  location.href = "./index.html"
+              } else {
+              }
           });
-        });
 
         //データ更新
         /*
@@ -150,40 +168,27 @@
         <label for="pass">パスワード</label>
         <input type="password" id="pass" name="pass" autocomplete="on">
       </form>
-      <button type="button" id="login">ログイン</button>
-      <button type="submit" id="submit">新規登録</button>
-      <button type="button" id="login-view">ログイン状況表示</button>
+      <button id="login">ログイン</button>
+      <button id="submit">新規登録</button>
+      <button id="google">Googleでサインインする</button>
 
-      <!--firebase ui-->
-      <div id="firebaseui-auth-container"></div>
-
-      <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-auth.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__ja.js"></script>
       <script>
+        //入力内容をfirestoreに渡す
+        // document.getElementById("login").addEventListener("click", () => {
+        //     const email = document.getElementById("email").value
+        //     const password = document.getElementById("pass").value
+        //     signInWithEmailAndPassword(auth, email, password)
+        //         .then((userCredential) => {
+        //             // Signed in
+        //             const user = userCredential.user
+        //             console.log(user);
+        //         })
+        //         .catch((error) => {
+        //             const errorCode = error.code
+        //             const errorMessage = error.message
+        //         })
 
-        // Firebase UIの設定
-        var uiConfig = {
-          // ログイン完了時のリダイレクト先
-          signInSuccessUrl: '/index.html',
-
-          // 利用する認証機能
-          signInOptions: [
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-            firebase.auth.TwitterAuthProvider.PROVIDER_ID
-          ],
-
-          // 利用規約のURL(任意で設定)
-          tosUrl: 'http://example.com/kiyaku/',
-          // プライバシーポリシーのURL(任意で設定)
-          privacyPolicyUrl: 'http://example.com/privacy'
-        };
-
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', uiConfig);
+        // })
       </script>
-
     </body>
   </html>
