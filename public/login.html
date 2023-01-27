@@ -4,7 +4,6 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Ondairy</title>
-      <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 
 
       <script type="module" defer>
@@ -76,10 +75,20 @@
           onAuthStateChanged(auth, (user) => {
               if (user) {
                   // 認証状態だったら
-                  location.href = "./index.html"
+                location.href = "./index.html"
               } else {
               }
           });
+
+          document.getElementById("signout").addEventListener("click", () => {
+                signOut(auth).then(() => {
+                    console.log("successful");
+                    location.href = "./signin.html"
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
+
 
         //データ更新
         /*
@@ -157,19 +166,23 @@
       <a href="login.html"><button>ログイン</button></a>
       <a href="editor.html"><button>編集画面</button></a>
       <a href="cart.html"><button>カート画面</button></a>
+      <div>
+
+      <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
+      </div>
 
       <!--FireStoreのサンプル
       https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
       -->
 
-      <form>
+      <div>
         <label for="email">メールアドレス</label>
         <input type="email" id="email" name="email">
         <label for="pass">パスワード</label>
         <input type="password" id="pass" name="pass" autocomplete="on">
-      </form>
-      <button id="login">ログイン</button>
-      <button id="submit">新規登録</button>
+        <button id="login">ログイン</button>
+        <button id="submit">新規登録</button>
+      </div>
       <button id="google">Googleでサインインする</button>
 
       <script>
