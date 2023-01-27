@@ -245,12 +245,25 @@
         <!--Storageのサンプル
         https://lpeg.info/webworks/firebase/firebase_storage.html
         -->
+
+        <h3>イラストをダウンロード</h3>
+        <button id="download">aaaa</button>
+
         <form>
             <input type="file" value="画像選択">
             <input type="submit" value="アップロード">
         </form>
         <a href="mask.html"><button>次へ</button></a>
         <script>
+
+        document.getElementById("download").onclick = (event) => {
+            let canvas = document.getElementById("canvas");
+
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "test.png";
+            link.click();
+        }
         // //3dのデータを読み込む
         // // ページの読み込みを待つ
         // window.addEventListener('DOMContentLoaded', init);
