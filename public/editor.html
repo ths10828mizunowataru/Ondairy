@@ -38,13 +38,11 @@
                 appId: "1:988142203119:web:4df2ef69aa5b5baa0e2b1a",
                 measurementId: "G-JEE9VSE0DL"
             };
-            firebase.initializeApp(firebaseConfig);
 
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getFirestore(app);
-            const auth = getAuth(app);
             </script>
 
         <!--　 fabric.jsの読込み　-->
@@ -240,10 +238,6 @@
 
         <!-- canvasのサンプル
             <canvas id="myCanvas"></canvas>
-        -->
-
-        <!--Storageのサンプル
-        https://lpeg.info/webworks/firebase/firebase_storage.html
         -->
 
         <h3>イラストをダウンロード</h3>

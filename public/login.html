@@ -5,7 +5,18 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Ondairy</title>
 
-
+      <!-- update the version number as needed -->
+      <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
+      <!-- include only the Firebase features as you need -->
+      <script defer src="/__/firebase/9.14.0/firebase-auth-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-database-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-firestore-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-functions-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-messaging-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-storage-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-analytics-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-remote-config-compat.js"></script>
+      <script defer src="/__/firebase/9.14.0/firebase-performance-compat.js"></script>
       <script type="module" defer>
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
@@ -45,9 +56,9 @@
                     const errorCode = error.code
                     const errorMessage = error.message
                 })
-
         })
 
+        //ボタンを押すとGoogleでログインする
           document
             .getElementById("google")
             .addEventListener("click", () => {
@@ -71,7 +82,6 @@
                     })
             })
 
-
           onAuthStateChanged(auth, (user) => {
               if (user) {
                   // 認証状態だったら
@@ -80,15 +90,22 @@
               }
           });
 
-          document.getElementById("signout").addEventListener("click", () => {
-                signOut(auth).then(() => {
-                    console.log("successful");
-                    location.href = "./signin.html"
-                }).catch((error) => {
-                    console.log(error);
+        //入力内容をfirestoreに渡す
+        document.getElementById("login").addEventListener("click", () => {
+            const email = document.getElementById("email").value
+            const password = document.getElementById("pass").value
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user
+                    console.log(user);
                 })
-            })
+                .catch((error) => {
+                    const errorCode = error.code
+                    const errorMessage = error.message
+                })
 
+        })
 
         //データ更新
         /*
@@ -109,56 +126,6 @@
         })
         */
 
-        /*
-        Authenticationのサンプル
-        https://www.topgate.co.jp/firebase05-firebase-authentication
-        https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
-        */
-        //ログイン認証
-        // document.getElementById("submit").addEventListener("click", member_submit);
-
-        // const member_submit = function () {
-        //   const $email = document.getElementById("email");
-        //   const $password = document.getElementById("password");
-        //   const email = $email.value;
-        //   const password = $password.value;
-        //   createUserWithEmailAndPassword(getAuth(), email, password)
-        //     .then((userCredential) => {
-        //       console.log("登録完了");
-        //     })
-        //     .catch((error) => {
-        //       console.log(error.code);
-        //     });
-        // }
-
-        //ログイン状況表示
-        // document.getElementById("login-view").addEventListener("click", registerUser);
-
-        // const registerUser = function () {
-        //     //Authオブジェクトを取得
-        //   const auth2 = getAuth();
-        //   const email = document.getElementById("email").value;
-        //   const password = document.getElementById("password").value;
-
-        //   createUserWithEmailAndPassword(auth, email, password)
-        //     //サインイン成功時の処理
-        //     .then(function (userCredential) {
-
-        //       //updateProfileメソッドでdisplayNameに情報を登録
-        //       updateProfile(auth2.currentUser, {
-        //         displayName: auth2.currentUser.email.split('@')[0],
-        //       })
-        //         .then(function () {
-        //           console.log(displayName);
-        //         }).catch(function () {
-        //           //ユーザー情報をアップデートできなかった時の処理
-        //         });
-
-        //     }).catch(() => {
-        //     //サインインできなかった時の処理
-        //     });
-        // }
-
       </script>
     </head>
     <body>
@@ -166,14 +133,6 @@
       <a href="login.html"><button>ログイン</button></a>
       <a href="editor.html"><button>編集画面</button></a>
       <a href="cart.html"><button>カート画面</button></a>
-      <div>
-
-      <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
-      </div>
-
-      <!--FireStoreのサンプル
-      https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
-      -->
 
       <div>
         <label for="email">メールアドレス</label>
@@ -184,24 +143,5 @@
         <button id="submit">新規登録</button>
       </div>
       <button id="google">Googleでサインインする</button>
-
-      <script>
-        //入力内容をfirestoreに渡す
-        // document.getElementById("login").addEventListener("click", () => {
-        //     const email = document.getElementById("email").value
-        //     const password = document.getElementById("pass").value
-        //     signInWithEmailAndPassword(auth, email, password)
-        //         .then((userCredential) => {
-        //             // Signed in
-        //             const user = userCredential.user
-        //             console.log(user);
-        //         })
-        //         .catch((error) => {
-        //             const errorCode = error.code
-        //             const errorMessage = error.message
-        //         })
-
-        // })
-      </script>
     </body>
   </html>
