@@ -35,9 +35,10 @@
                 projectId: "ih12b213-4",
                 storageBucket: "ih12b213-4.appspot.com",
                 messagingSenderId: "988142203119",
-                appId: "1:988142203119:web:4df2ef69aa5b5baa0e2b1a",
-                measurementId: "G-JEE9VSE0DL"
+                appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+                measurementId: "G-C80M7XW650"
             };
+            firebase.initializeApp(firebaseConfig);
 
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
@@ -327,6 +328,7 @@
             }
             Promise.all(uploads).then(function () {
                 alert('アップロード完了');
+                console.log("処理完了")
             });
         });
         </script>
