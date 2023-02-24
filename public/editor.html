@@ -6,23 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/9.14.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-performance-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
 
         <script type="module" defer>
             // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
-            import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+            import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
             // TODO: Add SDKs for Firebase products that you want to use
             // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -35,8 +35,8 @@
                 projectId: "ih12b213-4",
                 storageBucket: "ih12b213-4.appspot.com",
                 messagingSenderId: "988142203119",
-                appId: "1:988142203119:web:4df2ef69aa5b5baa0e2b1a",
-                measurementId: "G-JEE9VSE0DL"
+                appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+                measurementId: "G-C80M7XW650"
             };
             firebase.initializeApp(firebaseConfig);
 
@@ -44,7 +44,6 @@
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getFirestore(app);
-            const auth = getAuth(app);
             </script>
 
         <!--　 fabric.jsの読込み　-->
@@ -65,9 +64,10 @@
         </style>
     </head>
     <body>
-    <a href="index.html"><button>トップ画面</button></a>
-    <a href="login.html"><button>ログイン</button></a>
-    <a href="editor-sample.html"><button>編集画面</button></a>
+        <a href="index.html"><button>トップ画面</button></a>
+        <a href="login.html"><button>ログイン</button></a>
+        <a href="editor.html"><button>編集画面</button></a>
+        <a href="cart.html"><button>カート画面</button></a>
 
         <div id="Circle" onclick="AddCircle()">●</div>
         <div id="Rect" onclick="AddRect()">■</div>
@@ -97,13 +97,11 @@
         <h3>マスクの種類を選択</h3>
         <button type="button" onclick="uretan()">ウレタンマスク</button>
         <button type="button" onclick="fusyokufu()">不織布マスク</button>
-        <!--　ダウンロード　-->
-        <h3>イラストをダウンロード</h3>
-        <a id="download" href="#" download="canvas.jpg">ダウンロード</a>
         <!--　canvas要素を用意　-->
         <canvas id="canvas" style="border:1px solid;"></canvas>
         <!--　テスト処理記述場　-->
         <script type="text/javascript">
+
 
         const AngleSlideBar = document.getElementById("AngleSlideBar");
 
@@ -244,15 +242,24 @@
             <canvas id="myCanvas"></canvas>
         -->
 
-        <!--Storageのサンプル
-        https://lpeg.info/webworks/firebase/firebase_storage.html
-        -->
+        <h3>イラストをダウンロード</h3>
+        <button id="download">aaaa</button>
+
         <form>
             <input type="file" value="画像選択">
             <input type="submit" value="アップロード">
         </form>
-
+        <a href="mask.html"><button>次へ</button></a>
         <script>
+
+        document.getElementById("download").onclick = (event) => {
+            let canvas = document.getElementById("canvas");
+
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "test.png";
+            link.click();
+        }
         // //3dのデータを読み込む
         // // ページの読み込みを待つ
         // window.addEventListener('DOMContentLoaded', init);
@@ -321,6 +328,7 @@
             }
             Promise.all(uploads).then(function () {
                 alert('アップロード完了');
+                console.log("処理完了")
             });
         });
         </script>

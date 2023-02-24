@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>会員登録</title>
+</head>
+<body>
+    <div>
+        <h2>新規登録</h2>
+        <div>
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email">
+        </div>
+        <div>
+            <label for="password">パスワード</label>
+            <input type="password" id="password">
+        </div>
+        <div>
+            <button id="signup">サインアップ</button>
+            <button id="google">Googleでサインアップする</button>
+        </div>
+        <div>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+        // Firebaseの重要な設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyDdfZ5SHntjukBwgpUpMCePNxkdgU0GEWE",
+            authDomain: "ql71-ff623.firebaseapp.com",
+            projectId: "ql71-ff623",
+            storageBucket: "ql71-ff623.appspot.com",
+            messagingSenderId: "909306442060",
+            appId: "1:909306442060:web:0a34ecf671bfff9f921fe9"
+        };
+
+        // Firebaseの初期化
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth()
+        const provider = new GoogleAuthProvider();
+
+        document.getElementById("signup").addEventListener("click", () => {
+            
+            const email = document.getElementById("email").value
+            const password = document.getElementById("password").value
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user
+                    console.log(user);
+                })
+                .catch((error) => {
+                    const errorCode = error.code
+                    const errorMessage = error.message
+                })
+
+        })
+
+        document
+            .getElementById("google")
+            .addEventListener("click", () => {
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+                        // The signed-in user info.
+                        const user = result.user
+                        console.log(user)
+
+                    }).catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        const email = error.customData.email;
+                        // The AuthCredential type that was used.
+                        const credential = GoogleAuthProvider.credentialFromError(error);
+                    })
+            })
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // 認証状態だったら
+                location.href = "./index.html"
+            } else {
+            }
+        });
+
+
+    </script>
+</body>
+</html>

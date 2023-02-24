@@ -4,6 +4,67 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ondairy</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/9.16.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
+
+    <script type="module" defer>
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
+        authDomain: "ih12b213-4.firebaseapp.com",
+        databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
+        projectId: "ih12b213-4",
+        storageBucket: "ih12b213-4.appspot.com",
+        messagingSenderId: "988142203119",
+        appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+        measurementId: "G-C80M7XW650"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      document.getElementById("signout").addEventListener("click", () => {
+          signOut(auth).then(() => {
+              console.log("successful");
+              location.href = "./login.html"
+          }).catch((error) => {
+              console.log(error);
+          })
+      })
+
+      onAuthStateChanged(auth, (user) => {
+        let h1   = document.querySelector('h1');
+        let info = document.querySelector('#info');
+
+        if (user) {
+          h1.innerText   = 'Login Complete!';
+          info.innerHTML = `${user.displayName}さんがログインしました`;
+          console.log(user);
+        } else {
+          console.log("Not Login");
+        }
+      });
+    </script>
   </head>
   <body>
     <header></header>
@@ -11,27 +72,22 @@
     <a href="login.html"><button>ログイン</button></a>
     <a href="editor.html"><button>編集画面</button></a>
     <a href="cart.html"><button>カート画面</button></a>
+    <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-    <h1>...Please wait</h1>
+    <h1>ログインされていません<br>ログインは<a href="login.html">こちら</a>から</h1>
     <div id="info"></div>
     <footer></footer>
-  </body>
-  <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-auth.js"></script>
-  <script src="./config.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged( (user) => {
-      let h1   = document.querySelector('h1');
-      let info = document.querySelector('#info');
 
-      if(user) {
-        h1.innerText   = 'Login Complete!';
-        info.innerHTML = `${user.displayName}さんがログインしました`;
-        console.log(user);
-      }
-      else {
-        h1.innerText = 'Not Login';
-      }
-    });
-  </script>
+    <!-- Authenticationのサンプル
+    https://www.topgate.co.jp/firebase05-firebase-authentication
+    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
+
+    FireStoreのサンプル
+    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
+
+
+    Storageのサンプル
+    https://lpeg.info/webworks/firebase/firebase_storage.html -->
+
+  </body>
 </html>

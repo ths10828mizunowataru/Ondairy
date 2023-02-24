@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>チャット</title>
+</head>
+<body>
+    <div>
+        <h1>専科チャット</h1>
+        <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
+
+        <div class="button flex justify-center gap-4">
+            <button class="p-4 bg-stone-300 rounded">松</button>
+            <button class="p-4 bg-stone-300 rounded">竹</button>
+            <button class="p-4 bg-stone-300 rounded">梅</button>
+        </div>
+        <ul class="chat">
+            <template id="chatItem">
+                <li class="item flex p-4 ">
+                    <p class="image"><img class="w-32" src="./img/01.png"></p>
+                    <div>
+                        <div class="pt-4 flex items-center">
+                            <p class="name text-lg pr-2">HIROSAWA</p>
+                            <p class="time text-xs">20:12</p>
+                        </div>
+                        <p class="comment"></p>
+                        <div>
+                            <button class="remove">削除</button>
+                        </div>
+                    </div>
+                </li>
+            </template>
+        </ul>
+    </div>
+    <script type="module">
+        // 新しい構文
+        // 外のファイルを読み込む
+        // (firebase)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, query, where, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+        // Firebaseの重要な設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyDdfZ5SHntjukBwgpUpMCePNxkdgU0GEWE",
+            authDomain: "ql71-ff623.firebaseapp.com",
+            projectId: "ql71-ff623",
+            storageBucket: "ql71-ff623.appspot.com",
+            messagingSenderId: "909306442060",
+            appId: "1:909306442060:web:0a34ecf671bfff9f921fe9"
+        };
+
+        // Firebaseの初期化
+        const app = initializeApp(firebaseConfig);
+        // Firestoreの初期化
+        const db = getFirestore(app);
+
+        let user_id = ""
+        const auth = getAuth()
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // 認証状態だったら
+                user_id = user.uid
+            } else {
+                location.href = "./signin.html"
+            }
+        });
+
+
+
+        function zeroPadding(num) {
+            return `00${num}`.slice(-2)
+        }
+
+        // Firestoreにあるchatのドキュメントを取得
+        const images = []
+
+        const q = query(collection(db, "chat"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === "added") {
+                    const chat = document.querySelector(".chat")
+                    const template = document.getElementById("chatItem")
+                    const li = template.content.cloneNode(true)
+                    li.querySelector("li").classList.add(change.doc.id)
+                    li.querySelector(".image img").src = "https://firebasestorage.googleapis.com/v0/b/ql71-ff623.appspot.com/o/icon%2F" + change.doc.data().user_id +".jpg?alt=media&token=02791101-a682-4803-bf7f-608b9460da53"
+                    li.querySelector(".name").innerText = change.doc.data().user
+                    li.querySelector(".comment").innerText = change.doc.data().comment
+                    const date = new Date(change.doc.data().date)
+                    li.querySelector(".time").innerText
+                                = `${zeroPadding(date.getHours())}:${zeroPadding(date.getMinutes())}:${zeroPadding(date.getSeconds())}`
+                    if(change.doc.data().user_id !== user_id) {
+                        li.querySelector(".remove").remove()
+                    } else {
+                        li.querySelector(".remove").addEventListener("click", () => {
+                            deleteDoc(doc(db, "chat", change.doc.id))
+                        })
+                    }
+                    chat.appendChild(li)
+                }
+                if (change.type === "modified") {
+                    console.log("Modified city: ", change.doc.data());
+                }
+                if (change.type === "removed") {
+                    document.querySelector("." + change.doc.id).remove()
+                }
+            });
+        });
+
+        // 開いたら
+        // チャットの履歴を読み込む
+        // 内容
+        // 送信時刻、日時
+        // ユーザーの情報
+
+        // 新しいチャットが書き込まれたときページを更新する
+
+        // ユーザーが送信ボタンを押したら、書き込める
+        document
+            .querySelectorAll(".button button")
+            .forEach(element => {
+                element.addEventListener("click", (event) => {
+                    addDoc(collection(db, "chat"), {
+                        image: "./img/" + element.innerText + ".png",
+                        user: user_id,
+                        user_id: user_id,
+                        date: Date.now(),
+                        comment: "こんにちは"
+                    });
+                })
+            })
+
+            document.getElementById("signout").addEventListener("click", () => {
+                signOut(auth).then(() => {
+                    console.log("successful");
+                    location.href = "./signin.html"
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
+
+    </script>
+</body>
+</html>

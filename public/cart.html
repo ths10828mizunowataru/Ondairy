@@ -6,24 +6,23 @@
     <title>Ondairy</title>
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/9.14.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-performance-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
 
     <script type="module" defer>
         // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js"
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-storage.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -36,19 +35,61 @@
             projectId: "ih12b213-4",
             storageBucket: "ih12b213-4.appspot.com",
             messagingSenderId: "988142203119",
-            appId: "1:988142203119:web:4df2ef69aa5b5baa0e2b1a",
-            measurementId: "G-JEE9VSE0DL"
+            appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+            measurementId: "G-C80M7XW650"
         };
-        firebase.initializeApp(firebaseConfig);
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        var firebase = require('firebase');
-        var firebaseui = require('firebaseui');
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        const storage = getStorage();
+
+        // Get the download URL
+        getDownloadURL(ref(storage, 'form-uploaded/スクリーンショット (0000).png'))
+        .then((url) => {
+            // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
+
+            // This can be downloaded directly:
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = (event) => {
+            const blob = xhr.response;
+            };
+            xhr.open('GET', url);
+            xhr.send();
+
+            // Or inserted into an <img> element
+            const img = document.getElementById('img');
+            img.setAttribute('src', url);
+
+            console.log("画像取得成功");
+        })
+        .catch((error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+            case 'storage/object-not-found':
+                // File doesn't exist
+                break;
+            case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                break;
+            case 'storage/canceled':
+                // User canceled the upload
+                break;
+
+            // ...
+
+            case 'storage/unknown':
+                // Unknown error occurred, inspect the server response
+                break;
+            }
+
+            console.log("画像取得失敗");
+        });
+
+        // corsの参考
+        // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
 
     </script>
     </head>
@@ -57,6 +98,13 @@
     <a href="index.html"><button>トップ画面</button></a>
     <a href="login.html"><button>ログイン</button></a>
     <a href="editor.html"><button>編集画面</button></a>
+    <a href="cart.html"><button>カート画面</button></a>
+
+    <div id="cart">
+        <p>cartアイコン</p>
+        <img id="img" src="" alt="">
+        <h1></h1>
+    </div>
 
     <footer></footer>
     </body>
