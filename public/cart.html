@@ -22,7 +22,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-        import { getStorage, ref } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-storage.js";
+        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-storage.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -44,13 +44,10 @@
         const analytics = getAnalytics(app);
         const storage = getStorage();
 
-        // Create a child reference
-        const imagesRef = ref(storage, 'form-uploaded/スクリーンショット (0000).png');
-
         // Get the download URL
-        getDownloadURL(imagesRef)
+        getDownloadURL(ref(storage, 'form-uploaded/スクリーンショット (0000).png'))
         .then((url) => {
-            // `url` is the download URL for 'images/stars.jpg'
+            // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
 
             // This can be downloaded directly:
             const xhr = new XMLHttpRequest();
@@ -64,6 +61,8 @@
             // Or inserted into an <img> element
             const img = document.getElementById('img');
             img.setAttribute('src', url);
+
+            console.log("画像取得成功");
         })
         .catch((error) => {
             // A full list of error codes is available at
@@ -85,7 +84,12 @@
                 // Unknown error occurred, inspect the server response
                 break;
             }
+
+            console.log("画像取得失敗");
         });
+
+        // corsの参考
+        // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
 
     </script>
     </head>
@@ -97,8 +101,9 @@
     <a href="cart.html"><button>カート画面</button></a>
 
     <div id="cart">
-        <img src="" alt="">
         <p>cartアイコン</p>
+        <img id="img" src="" alt="">
+        <h1></h1>
     </div>
 
     <footer></footer>
