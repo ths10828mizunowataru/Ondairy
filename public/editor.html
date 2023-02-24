@@ -44,6 +44,28 @@
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getFirestore(app);
+
+
+            onAuthStateChanged(auth, (user) => {
+                const accessToken = user.accessToken;
+
+const userInfo = {
+email,
+accessToken,
+};
+
+return { user: userInfo };
+                let h1   = document.querySelector('h1');
+                let info = document.querySelector('#info');
+
+                if (user) {
+                h1.innerText   = 'Login Complete!';
+                info.innerHTML = `${user.displayName}さんがログインしました`;
+                console.log(user);
+                } else {
+                console.log("Not Login");
+                }
+            });
             </script>
 
         <!--　 fabric.jsの読込み　-->
@@ -55,6 +77,9 @@
         <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
         <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
         -->
+
+        <!-- corsのサンプル
+        https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82 -->
 
         <style>
             .canvas {
@@ -242,94 +267,29 @@
             <canvas id="myCanvas"></canvas>
         -->
 
-        <h3>イラストをダウンロード</h3>
-        <button id="download">aaaa</button>
-
+        <h3>このデザインをカートに追加する</h3>
         <form>
-            <input type="file" value="画像選択">
-            <input type="submit" value="アップロード">
+            <input  type="submit" value="カートへ追加">
         </form>
         <a href="mask.html"><button>次へ</button></a>
+
+        <h1>ログインされていません<br>ログインは<a href="login.html">こちら</a>から</h1>
+    <div id="info"></div>
         <script>
-
-        document.getElementById("download").onclick = (event) => {
-            let canvas = document.getElementById("canvas");
-
-            let link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
-            link.download = "test.png";
-            link.click();
-        }
-        // //3dのデータを読み込む
-        // // ページの読み込みを待つ
-        // window.addEventListener('DOMContentLoaded', init);
-
-        // function init() {
-        //     // サイズを指定
-        //     const width = 960;
-        //     const height = 540;
-
-        //     // レンダラーを作成
-        //     const canvasElement = document.querySelector('#myCanvas');
-        //     const renderer = new THREE.WebGLRenderer({
-        //         canvas: canvasElement,
-        //     });
-        //     renderer.setPixelRatio(window.devicePixelRatio);
-        //     renderer.setSize(width, height);
-
-        //     // シーンを作成
-        //     const scene = new THREE.Scene();
-
-        //     // カメラを作成
-        //     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
-        //     // カメラの初期座標を設定
-        //     camera.position.set(2, 2, 2);
-
-        //     // カメラコントローラーを作成
-        //     const controls = new THREE.OrbitControls(camera, canvasElement);
-        //     controls.target.set(0, 0, 0);
-        //     controls.update();
-
-        //     // 平行光源を作成
-        //     const directionalLight = new THREE.DirectionalLight(0xffffff);
-        //     directionalLight.position.set(1, 1, 1);
-        //     scene.add(directionalLight);
-        //     // 環境光を追加
-        //     const ambientLight = new THREE.AmbientLight(0xffffff);
-        //     scene.add(ambientLight);
-
-        //     // GLTF形式のモデルデータを読み込む
-        //     const loader = new THREE.GLTFLoader();
-        //     // GLTFファイルのパスを指定
-        //     loader.load('public/scene.gltf', (gltf) => {
-        //       // 読み込み後に3D空間に追加
-        //         const model = gltf.scene;
-        //         scene.add(model);
-        //     });
-
-        //     tick();
-
-        //     // 毎フレーム時に実行されるループイベントです
-        //     function tick() {
-        //       // レンダリング
-        //         renderer.render(scene, camera);
-        //         requestAnimationFrame(tick);
-        //     }
-        // }
 
         var form = document.querySelector('form');
         form.addEventListener('submit', function (e) {
+            let now = new Date();
+            let canvas = document.getElementById("canvas");
             e.preventDefault();
             var imgs = form.querySelector('input');
             var uploads = [];
-            for (var file of imgs.files) {
-                var storageRef = firebase.storage().ref('form-uploaded/' + file.name);
-                uploads.push(storageRef.put(file));
-            }
+            var storageRef = firebase.storage().ref('form-uploaded/' +  + now);
+            uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
             Promise.all(uploads).then(function () {
-                alert('アップロード完了');
-                console.log("処理完了")
+                console.log("処理完了", now)
             });
+            location.href = "cart.html";
         });
         </script>
     </body>
