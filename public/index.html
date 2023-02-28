@@ -57,7 +57,7 @@
         let info = document.querySelector('#info');
 
         if (user) {
-          h1.innerText   = 'Login Complete!';
+          h3.innerText   = 'Login Complete!';
           info.innerHTML = `${user.displayName}さんがログインしました`;
           console.log(user);
         } else {
@@ -74,7 +74,7 @@
     <a href="cart.html"><button>カート画面</button></a>
     <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-    <h1>ログインされていません<br>ログインは<a href="login.html">こちら</a>から</h1>
+    <h3>ログインは<a href="login.html">こちら</a>から</h3>
     <div id="info"></div>
     <footer></footer>
 
@@ -89,5 +89,8 @@
     Storageのサンプル
     https://lpeg.info/webworks/firebase/firebase_storage.html -->
 
+    <!--editorにてcanvas画像化の命名をuidと現在時刻を取得
+    cartにて商品をtenmpleteで生成したい
+    loginにてフォームのデータを選別したい-->
   </body>
 </html>

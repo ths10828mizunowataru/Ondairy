@@ -18,6 +18,9 @@
     <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
     <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
 
+    <!--　 fabric.jsの読込み　-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
+
         <script type="module" defer>
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
@@ -44,20 +47,28 @@
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getFirestore(app);
-            </script>
 
-        <!--　 fabric.jsの読込み　-->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
+            //サインアウトする
+            document.getElementById("signout").addEventListener("click", () => {
+                signOut(auth).then(() => {
+                    console.log("successful");
+                    location.href = "./login.html"
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
 
-        <!-- canvasのサンプル
-            https://ics.media/tutorial-three/model_basic/
-        <script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
-        <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
-        <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
-        -->
-
-        <!-- corsのサンプル
-        https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82 -->
+            //サインインしていたらアカウント名を表示する
+            onAuthStateChanged(auth, (user) => {
+            let h3   = document.querySelector('h3');
+            if (user) {
+                h3.innerText = `${user.displayName}さんがログインしました`;
+                console.log(user);
+            } else {
+                console.log("Not Login");
+            }
+            });
+        </script>
 
         <style>
             .canvas {
@@ -67,10 +78,18 @@
         </style>
     </head>
     <body>
+        <!-- canvasのサンプル
+            https://ics.media/tutorial-three/model_basic/
+        <script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
+        <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
+        -->
+
         <a href="index.html"><button>トップ画面</button></a>
         <a href="login.html"><button>ログイン</button></a>
         <a href="editor.html"><button>編集画面</button></a>
         <a href="cart.html"><button>カート画面</button></a>
+        <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
         <div id="Circle" onclick="AddCircle()">●</div>
         <div id="Rect" onclick="AddRect()">■</div>
@@ -245,29 +264,23 @@
             <canvas id="myCanvas"></canvas>
         -->
 
-        <h3>このデザインをカートに追加する</h3>
-        <form>
-            <input  type="submit" value="カートへ追加">
-        </form>
-        <a href="mask.html"><button>次へ</button></a>
+        <input id="add_cart" type="submit" value="このデザインをカートに追加する">
 
-        <h1>ログインされていません<br>ログインは<a href="login.html">こちら</a>から</h1>
-    <div id="info"></div>
-        <script>
-        var form = document.querySelector('form');
-        form.addEventListener('submit', function (e) {
-            let now = new Date();
-            let canvas = document.getElementById("canvas");
-            e.preventDefault();
-            var imgs = form.querySelector('input');
-            var uploads = [];
-            var storageRef = firebase.storage().ref('form-uploaded/' +  + now);
-            uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
-            Promise.all(uploads).then(function () {
-                console.log("処理完了", now)
+        <h3>ログインは<a href="login.html">こちら</a>から</h3>
+        <div id="info"></div>
+        <script>//canvasの内容を現在時刻の名前で画像化する
+            document.getElementById("add_cart").addEventListener("click", function (e) {
+                let now = new Date();
+                let canvas = document.getElementById("canvas");
+                e.preventDefault();
+                var uploads = [];
+                var storageRef = firebase.storage().ref('form-uploaded/' + "ユーザーidとタイムスタンプ");
+                uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
+                Promise.all(uploads).then(function () {
+                    console.log("処理完了", now)
+                });
+                location.href = "cart.html";
             });
-            location.href = "cart.html";
-        });
         </script>
     </body>
 </html>

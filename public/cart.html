@@ -47,6 +47,27 @@
         const auth = getAuth();
         const user = auth.currentUser;
 
+        //ユーザー情報を取得する
+        export const useUser = () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user !== null) {
+            const email = user.email;
+            const accessToken = user.accessToken;
+
+            const userInfo = {
+            email,
+            uid,
+            };
+
+            return { user: userInfo };
+            console.log(user);
+        } else {
+            return { user };
+        }
+        };
+
         //storageの画像を取得する
         // Get the download URL
         getDownloadURL(ref(storage, 'form-uploaded/ユーザーidとタイムスタンプ'))
@@ -93,6 +114,9 @@
             }
         });
 
+        // corsの参考
+        // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
+
         //サインアウトする
         document.getElementById("signout").addEventListener("click", () => {
             signOut(auth).then(() => {
@@ -103,43 +127,17 @@
             })
         })
 
-        //サインインしたらアカウント情報を反映する
+        //サインインしていたらアカウント名を表示する
         onAuthStateChanged(auth, (user) => {
-            let h1   = document.querySelector('h1');
-            let info = document.querySelector('#info');
+        let h3   = document.querySelector('h3');
 
-            if (user) {
-            h1.innerText   = 'Login Complete!';
-            info.innerHTML = `${user.displayName}さんがログインしました`;
-            console.log(user);
-            } else {
-            console.log("Not Login");
-            }
-        });
-
-        //
-        export const useUser = () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
-
-        if (user !== null) {
-            const email = user.email;
-            const accessToken = user.accessToken;
-
-            const userInfo = {
-            email,
-            uid,
-            };
-
-            return { user: userInfo };
+        if (user) {
+            h3.innerText = `${user.displayName}さんがログインしました`;
             console.log(user);
         } else {
-            return { user };
+            console.log("Not Login");
         }
-        };
-
-        // corsの参考
-        // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
+        });
     </script>
     </head>
     <body>
@@ -150,7 +148,7 @@
     <a href="cart.html"><button>カート画面</button></a>
     <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-    <h1>ログインされていません<br>ログインは<a href="login.html">こちら</a>から</h1>
+    <h3>ログインは<a href="login.html">こちら</a>から</h3>
     <div id="info"></div>
 
     <!-- テンプレートとして表示したい内容 -->
