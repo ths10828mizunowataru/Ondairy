@@ -1,19 +1,9 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="ja">
-=======
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/index.js" />
-    <title>Ondairy</title>
->>>>>>> 1a9c26c7afab17e13d263583624a952f015f2f01
 
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prototypeindex.css" />
+    <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="index.js" />
     <title>On Daily</title>
 </head>
@@ -22,13 +12,12 @@
 
     <!-- ////////// ヘッダー ・ハンバーガー////////// -->
 
-<<<<<<< HEAD
     <div class="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </div>
-      
+
       <nav class="globalMenuSp">
           <ul>
               <li><a href="#">Menu1</a></li>
@@ -36,68 +25,6 @@
               <li><a href="#">Menu3</a></li>
           </ul>
       </nav>
-=======
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      if (user !== null) {
-    const email = user.email;
-    const accessToken = user.accessToken;
-
-    const userInfo = {
-      email,
-      uid,
-    };
-
-    return { user: userInfo };
-  } else {
-    return { user };
-  }
-  
-      document.getElementById("signout").addEventListener("click", () => {
-          signOut(auth).then(() => {
-              console.log("successful");
-              location.href = "./login.html"
-          }).catch((error) => {
-              console.log(error);
-          })
-      })
-
-      onAuthStateChanged(auth, (user) => {
-        let h3   = document.querySelector('h3');
-        let info = document.querySelector('#info');
-
-        if (user) {
-          h3.innerText   = '';
-          info.innerHTML = `${user.displayName}さんがログインしました`;
-          console.log(user);
-        } else {
-          console.log("Not Login");
-        }
-      });
-    </script>
-  </head>
-  <body>
-    <header></header>
-    <a href="index.html"><button>トップ画面</button></a>
-    <a href="login.html"><button>ログイン</button></a>
-    <a href="editor.html"><button>編集画面</button></a>
-    <a href="cart.html"><button>カート画面</button></a>
-    <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
-
-    <h3>ログインは<a href="login.html">こちら</a>から</h3>
-    <div id="info"></div>
-    <footer></footer>
-
-    <!-- Authenticationのサンプル
-    https://www.topgate.co.jp/firebase05-firebase-authentication
-    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
-
-    FireStoreのサンプル
-    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
->>>>>>> 1a9c26c7afab17e13d263583624a952f015f2f01
 
 
 
@@ -131,7 +58,7 @@
     <div class="concept">
         <img src="images/17.png" >
       </div>
-    
+
         <div class="concept-title">
             <h3>おしゃれに妥協しないマスク。</h3>
               <p>皆さまの生活に<br>自分の好きなオリジナルスタイルで<br>
@@ -139,7 +66,7 @@
                  より豊かで快適な日常をお届けします。</p>
                  <span></span>
           </div>
-          
+
           <div class="concept-box"></div>
           <div class="concept-boxs"></div>
 
@@ -147,7 +74,7 @@
             <img src="images/over.jpg" >
           </div>
 
-   
+
           <div class="HOWTO">
            <h2>HOW TO START</h2>
            <p>OnDailyの始め方</p>
@@ -178,7 +105,7 @@
             });
             </script>
 
- 
+
 
 
 
