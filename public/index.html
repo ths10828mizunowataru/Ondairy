@@ -43,6 +43,20 @@
       const auth = getAuth();
       const user = auth.currentUser;
 
+      if (user !== null) {
+    const email = user.email;
+    const accessToken = user.accessToken;
+
+    const userInfo = {
+      email,
+      uid,
+    };
+
+    return { user: userInfo };
+  } else {
+    return { user };
+  }
+  
       document.getElementById("signout").addEventListener("click", () => {
           signOut(auth).then(() => {
               console.log("successful");
@@ -53,11 +67,11 @@
       })
 
       onAuthStateChanged(auth, (user) => {
-        let h1   = document.querySelector('h1');
+        let h3   = document.querySelector('h3');
         let info = document.querySelector('#info');
 
         if (user) {
-          h3.innerText   = 'Login Complete!';
+          h3.innerText   = '';
           info.innerHTML = `${user.displayName}さんがログインしました`;
           console.log(user);
         } else {
