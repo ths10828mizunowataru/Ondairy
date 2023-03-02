@@ -2,17 +2,14 @@
 <html lang="jp">
 
 <head>
-	<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+	<meta http-equiv="content-type" content="text/html" charset="utf-8">
 	<title>login</title>
-	<link rel="StyleSheet" href="login.css" />
+	<link rel="StyleSheet" href="login.css">
 
 </head>
 
 
 <body>
-	<header>
-		<p class="login_top">Ondairy</p>
-	</header>
 
 	<main>
 		<div clas="login">
@@ -20,15 +17,24 @@
 			<br>
 			<form>
 				<dev>
+			
 					<p>メールアドレス</p>
-					<input type="text" class="textinput">
+					
+					<small id="notice-input-text-1" style="display: none; color: #ea5506;"> 【名前を入力してください】</small>
+					<input type="text" size="40" placeholder="名前を入力" name="InputText1">
+
+
 				</dev>
 				<dev>
 					<p>パスワード</p>
-					<input type="text" class="textinput">
+					
+					<small id="notice-input-text-1" style="display: none; color: #ea5506;"> 【名前を入力してください】</small>
+					<input type="text" size="40" placeholder="名前を入力" name="InputText1">
+
+					
 				</dev>
 				<br>
-				<button class="enterbutton" onclick="console.log('クリックされた')">ログイン</button>
+				<input type="submit" name="act" value="送信する">
 			</form>
 
 			<br>
