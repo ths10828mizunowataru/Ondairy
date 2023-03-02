@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="StyleSheet" href="common.css" />
+	<link rel="StyleSheet" href="css/login.css" />
     <title>Ondairy</title>
 
     <!-- update the version number as needed -->
@@ -22,7 +24,7 @@
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
       import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -45,10 +47,19 @@
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
 
-      //ボタンを押すとログインする
+      //ログイン状況認証
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+            location.href = "./index.html"
+          } else {
+          }
+      });
+
+      //ログイン
       document.getElementById("login").addEventListener("click", () => {
-          const email = document.getElementById("email").value
-          const password = document.getElementById("pass").value
+          let email = document.getElementById("email").value
+          let password = document.getElementById("pass").value
+          let error_code = document.getElementById("error_code")
           signInWithEmailAndPassword(auth, email, password)
               .then((userCredential) => {
                   // Signed in
@@ -58,16 +69,52 @@
               .catch((error) => {
                   const errorMessage = error.message
                   console.log(errorMessage);
-                  addDoc(collection(db, "Menber_Info"), {
-                    title: "メールアドレス,パスワード",
-                    email: email,
-                    pass: password,
-                    timestamp: Date.now()
-                  })
+                  error_code.innerHTML = "メールアドレスまたはパスワードが違います";
               })
       })
 
-      //ボタンを押すとGoogleでログインする
+      //新規登録
+      document.getElementById("submit").addEventListener("click", () => {
+        const docRef = addDoc(collection(db, "Menber_Info"), {
+                title: "メールアドレス,パスワード",
+                email: document.getElementById("email").value,
+                pass: document.getElementById("pass").value,
+                timestamp: Date.now()
+          }).then(() => {
+            console.log("Document successfully written!");
+            signInWithEmailAndPassword(auth, email, password)
+              .then((userCredential) => {
+                  // Signed in
+                  const user = userCredential.user
+                  console.log(user);
+              })
+              .catch((error) => {
+                  const errorMessage = error.message
+                  console.log(errorMessage);
+                  error_code.innerHTML = "メールアドレスまたはパスワードが違います";
+              })
+          }).catch((error) => {
+            console.error("Error writing document: ", error);
+          });
+      });
+
+      //パスワードリセット
+      document.getElementById("pass_reset").addEventListener("click", () => {
+        let email = document.getElementById("email").value
+        let error_code = document.getElementById("error_code")
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+          // Password reset email sent!
+          error.innerText = `パスワード変更メールを送りました`;
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          error_code.innerText = "メールアドレスを入力してください";
+        });
+      });
+
+      //Googleでログイン
       document.getElementById("google").addEventListener("click", () => {
         signInWithPopup(auth, provider)
             .then((result) => {
@@ -89,49 +136,6 @@
             })
       })
 
-      //ログイン状況認証
-      onAuthStateChanged(auth, (user) => {
-          if (user) {
-              // 認証状態だったら
-            location.href = "./index.html"
-          } else {
-          }
-      });
-
-      //入力内容をfirestoreに渡す
-      document.getElementById("submit").addEventListener("click", () => {
-        const docRef = addDoc(collection(db, "Menber_Info"), {
-                title: "メールアドレス,パスワード",
-                email: document.getElementById("email").value,
-                pass: document.getElementById("pass").value,
-                timestamp: Date.now()
-          }).then(() => {
-            console.log("Document successfully written!");
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-        });
-      });
-
-      //データ更新
-      /*
-      document.getElementById("re-submit").addEventListener("click", () => {
-        var db = firebase.firestore();
-
-        db.collection("顧客のドキュメント名を指定").doc().update({
-              title: "メールアドレス,パスワードリセット",
-              email: document.getElementById("email").value,
-              pass: document.getElementById("pass").value
-          })
-          .then(() => {
-              console.log("Document successfully written!");
-          })
-          .catch((error) => {
-              console.error("Error writing document: ", error);
-          });
-      })
-      */
-
     </script>
   </head>
   <body>
@@ -140,14 +144,20 @@
     <a href="editor.html"><button>編集画面</button></a>
     <a href="cart.html"><button>カート画面</button></a>
 
+    <div id="error">
+      <h3 id="error_code"></h3>
+    </div>
+
     <div>
       <label for="email">メールアドレス</label>
       <input type="email" id="email" name="email">
       <label for="pass">パスワード</label>
       <input type="password" id="pass" name="pass" autocomplete="on">
       <button id="login">ログイン</button>
-      <button id="submit">新規登録</button>
     </div>
-    <button id="google">Googleでサインインする</button>
+
+    <button id="submit">新規登録</button>
+    <button id="pass_reset">パスワードリセット</button>
+    <button id="google">Googleでログイン</button>
   </body>
 </html>

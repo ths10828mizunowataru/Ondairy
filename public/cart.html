@@ -23,6 +23,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
         import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-storage.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -43,9 +44,33 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const storage = getStorage();
+        const auth = getAuth();
+        const user = auth.currentUser;
 
+        //ユーザー情報を取得する
+        export const useUser = () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user !== null) {
+            const email = user.email;
+            const accessToken = user.accessToken;
+
+            const userInfo = {
+            email,
+            uid,
+            };
+
+            return { user: userInfo };
+            console.log(user);
+        } else {
+            return { user };
+        }
+        };
+
+        //storageの画像を取得する
         // Get the download URL
-        getDownloadURL(ref(storage, 'form-uploaded/スクリーンショット (0000).png'))
+        getDownloadURL(ref(storage, 'form-uploaded/ユーザーidとタイムスタンプ'))
         .then((url) => {
             // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
 
@@ -65,6 +90,9 @@
             console.log("画像取得成功");
         })
         .catch((error) => {
+
+            console.log("画像取得失敗");
+
             // A full list of error codes is available at
             // https://firebase.google.com/docs/storage/web/handle-errors
             switch (error.code) {
@@ -84,13 +112,32 @@
                 // Unknown error occurred, inspect the server response
                 break;
             }
-
-            console.log("画像取得失敗");
         });
 
         // corsの参考
         // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
 
+        //サインアウトする
+        document.getElementById("signout").addEventListener("click", () => {
+            signOut(auth).then(() => {
+                console.log("successful");
+                location.href = "./login.html"
+            }).catch((error) => {
+                console.log(error);
+            })
+        })
+
+        //サインインしていたらアカウント名を表示する
+        onAuthStateChanged(auth, (user) => {
+        let h3   = document.querySelector('h3');
+
+        if (user) {
+            h3.innerText = `${user.displayName}さんがログインしました`;
+            console.log(user);
+        } else {
+            console.log("Not Login");
+        }
+        });
     </script>
     </head>
     <body>
@@ -99,12 +146,30 @@
     <a href="login.html"><button>ログイン</button></a>
     <a href="editor.html"><button>編集画面</button></a>
     <a href="cart.html"><button>カート画面</button></a>
+    <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-    <div id="cart">
-        <p>cartアイコン</p>
+    <h3>ログインは<a href="login.html">こちら</a>から</h3>
+    <div id="info"></div>
+
+    <!-- テンプレートとして表示したい内容 -->
+    <template id="template">
         <img id="img" src="" alt="">
         <h1></h1>
-    </div>
+    </template>
+
+    <!-- テンプレート表示エリア -->
+    <div id="container"></div>
+
+    <script>
+        // template要素を取得
+        var template = document.getElementById('template');
+
+        // template要素の内容を複製
+        var clone = template.content.cloneNode(true);
+
+        // div#vcontainerの中に追加
+        document.getElementById('container').appendChild(clone);
+    </script>
 
     <footer></footer>
     </body>

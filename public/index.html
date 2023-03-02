@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/index.js" />
     <title>Ondairy</title>
 
     <!-- update the version number as needed -->
@@ -43,6 +45,20 @@
       const auth = getAuth();
       const user = auth.currentUser;
 
+      if (user !== null) {
+    const email = user.email;
+    const accessToken = user.accessToken;
+
+    const userInfo = {
+      email,
+      uid,
+    };
+
+    return { user: userInfo };
+  } else {
+    return { user };
+  }
+  
       document.getElementById("signout").addEventListener("click", () => {
           signOut(auth).then(() => {
               console.log("successful");
@@ -53,11 +69,11 @@
       })
 
       onAuthStateChanged(auth, (user) => {
-        let h1   = document.querySelector('h1');
+        let h3   = document.querySelector('h3');
         let info = document.querySelector('#info');
 
         if (user) {
-          h1.innerText   = 'Login Complete!';
+          h3.innerText   = '';
           info.innerHTML = `${user.displayName}さんがログインしました`;
           console.log(user);
         } else {
@@ -74,7 +90,7 @@
     <a href="cart.html"><button>カート画面</button></a>
     <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-    <h1>ログインされていません<br>ログインは<a href="login.html">こちら</a>から</h1>
+    <h3>ログインは<a href="login.html">こちら</a>から</h3>
     <div id="info"></div>
     <footer></footer>
 
@@ -89,5 +105,8 @@
     Storageのサンプル
     https://lpeg.info/webworks/firebase/firebase_storage.html -->
 
+    <!--editorにてcanvas画像化の命名をuidと現在時刻を取得
+    cartにて商品をtenmpleteで生成したい
+    loginにてフォームのデータを選別したい-->
   </body>
 </html>

@@ -1,0 +1,462 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体",
+        YuGothic, sans-serif;
+    font-size: 16px;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: #b7b7b7;
+    background-color: #9a9a9a;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover img {
+    opacity: 0.8;
+}
+
+/*--------------------------------
+　　　ヘッダー部分・ハンバーガー
+---------------------------------*/
+
+
+.hamburger {
+    display : block;
+    position: fixed;
+    z-index : 3;
+   left: 1%;
+    top   : 12px;
+    width : 42px;
+    height: 42px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .hamburger span {
+    display : block;
+    position: absolute;
+    width   : 30px;
+    height  : 2px ;
+    left    : 6px;
+    background : #fff;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition   : 0.3s ease-in-out;
+    transition        : 0.3s ease-in-out;
+  }
+  .hamburger span:nth-child(1) {
+    top: 10px;
+  }
+  .hamburger span:nth-child(2) {
+    top: 20px;
+  }
+  .hamburger span:nth-child(3) {
+    top: 30px;
+  }
+  
+  /* ナビ開いてる時のボタン */
+  .hamburger.active {
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition     : all 0.3s ease-in-out;
+    transition        : all 0.3s ease-in-out;
+    -webkit-transition-delay: 0.6s;
+    -o-transition-delay     : 0.6s;
+    transition-delay        : 0.6s;
+    -webkit-transform: rotate(45deg);
+    -ms-transform    : rotate(45deg);
+    -o-transform     : rotate(45deg);
+    transform        : rotate(45deg);
+  }
+  .hamburger.active span:nth-child(2){
+    width: 0px;
+  }
+  .hamburger.active span:nth-child(1),
+  .hamburger.active span:nth-child(3){
+    background :#fff;
+    -webkit-transition-delay: 0.3s;
+    -o-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+  }
+  .hamburger.active span:nth-child(1){
+    -webkit-transform: translateY(4px);
+    -ms-transform    : translateY(4px);
+    -o-transform     : translateY(4px);
+    transform        : translateY(4px);
+  }
+  
+  .hamburger.active span:nth-child(3){
+    -webkit-transform: translateY(-16px) rotate(90deg);
+    -ms-transform: translateY(-16px) rotate(90deg);
+    -o-transform : translateY(-16px) rotate(90deg);
+    transform    : translateY(-16px) rotate(90deg);
+  }
+  
+  
+  nav.globalMenuSp {
+    position: fixed;
+    z-index : 2;
+    top  : 0;
+    left : 0;
+    color: #fff;
+    background: rgba(0,0,0,0.7);
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    transition: opacity .6s ease, visibility .6s ease;
+  }
+  
+  nav.globalMenuSp ul {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+  }
+  
+  nav.globalMenuSp ul li {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    transition: .4s all;
+  }
+  nav.globalMenuSp ul li:last-child {
+    padding-bottom: 0;
+  }
+  nav.globalMenuSp ul li:hover{
+    background :#ddd;
+  }
+  
+  nav.globalMenuSp ul li a {
+    display: block;
+    color: #fff;
+    padding: 1em 0;
+    text-decoration :none;
+  }
+  
+  /* このクラスを、jQueryで付与・削除する */
+  nav.globalMenuSp.active {
+    opacity: 100;
+  
+  }
+
+
+
+
+
+
+
+/*--------------------------------
+　　　　ロゴ・サイトタイトル
+---------------------------------*/
+.container {
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.top-title {
+    font-size: 20px;
+    font-family: "arial black";
+
+    width: calc((420 / 1440) * 100%);
+    height: calc((478 / 790) * 100%);
+    background-color: #9a9a9a;
+    color: #fff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 40%;
+}
+.top_ms{
+    margin-bottom: 80px;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    margin: 0 85px;
+}
+.name{
+    width: 50%;
+}
+.logo_img{
+    width: 50%;
+}
+.logo_img img {
+    width: 100%;
+}
+
+.slider {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    object-fit: cover;
+    width: 100%;
+    height: 88%;
+}
+
+.slider img{
+    width: 93%;
+    height: 100%;
+}
+
+/*--------------------------------
+コンセプト
+---------------------------------*/
+
+.concept-title{
+	font-size: 20px;
+	position: absolute;
+    left: 59%;
+    top: 132%;
+    bottom: 0;
+    width: calc((420 / 1440) * 100%);
+    height: calc((478 / 990) * 100%);
+    color: #fff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.concept-title h3 {
+    text-decoration: underline;
+    
+}
+
+.concept-title img{
+	width:23%;
+	height: 23%;
+	left: 20;
+}
+
+.concept {
+  width: 100%;
+}
+
+.concept img{
+    z-index: 10;
+	width: 58%;
+    height: 55%;
+    object-fit: cover;
+	max-width: unset;
+    position: absolute;
+    top: 152%;
+    left: 38%;
+    transform: translate(-50%,-50%);
+	
+}
+
+.concept-box{
+position: absolute;
+    left: 60%;
+    top: 128%;
+    bottom: 0;
+    width: calc((420 / 1440) * 100%);
+    height: calc((478 / 990) * 100%);
+    border: solid 3px #adffff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.concept-boxs{
+  position: absolute;
+      left: 59.8%;
+      top: 128.2%;
+      bottom: 0;
+      width: calc((420 / 1440) * 100%);
+      height: calc((474 / 990) * 100%);
+      border: solid 2px #ce9eff;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+  }
+
+/*--------------------------------
+背景画像
+---------------------------------*/
+.back img{
+  position: absolute;
+  top: 195%;
+  height: 45%;
+}
+
+
+
+/*--------------------------------
+流れ
+---------------------------------*/
+.HOWTO {
+  font-size: 20px;
+  font-family: "arial black";
+  width: calc((870 / 1440) * 100%);
+  height: calc((478 / 790) * 100%);
+  background-color: #9a9a9a;
+  box-shadow    : 1px 2px 15px #a9a7a7;
+  color: #fff;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 19%;
+  right: 0;
+  top: 208%;
+}
+
+.HOWTO h2{
+  position: absolute;
+  top: 2%;
+  color: rgb(255, 255, 255);
+}
+
+.HOWTO p{
+  position: absolute;
+  top: 13%;
+  color: rgb(255, 255, 255);
+}
+
+.top_ms{
+  margin-bottom: 80px;
+}
+
+.logo{
+  display: flex;
+  align-items: center;
+  margin: 0 85px;
+}
+
+.name{
+  width: 50%;
+}
+
+.logo_img{
+  width: 50%;
+}
+
+.logo_img img {
+  width: 100%;
+}
+
+/*--------------------------------
+スライダー
+---------------------------------*/
+.hscroll {
+  position: absolute;
+	width:550px;
+	height:250px;
+  top: 1%;
+	position:relative;
+}
+.hscroll ul {
+	padding:0;
+	margin:0;
+  top: 5%;
+  left: 3%;
+	width:100%;
+	height:60%;
+  position: absolute;
+	overflow:hidden;
+	white-space:nowrap;
+	scroll-snap-type:x mandatory;
+	scroll-behavior:smooth;
+}
+.hscroll img {
+	width:100%;
+	height:100%;
+	object-fit:contain;
+}
+
+.hscroll li {
+	list-style:none;
+	display:inline-block;
+	scroll-snap-align:center;
+	width:100%;
+	height:100%;
+}
+.arrow {
+	top:0;
+	position:absolute;
+	width:8%;
+	height:100%;
+	cursor:pointer;
+}
+.arrow:before {
+	content:'';
+	position:absolute;
+	width:10px;
+	height:10px;
+	border-left:4px solid rgb(226, 226, 226);
+	border-bottom:4px solid rgb(226, 226, 226);
+}
+.left {
+	left:0px;
+}
+.left:before {
+	top:calc(50% - 10px);
+	left:calc(50% - 4px);
+	transform:rotate(45deg);
+}
+.right {
+	right:0;
+}
+.right:before {
+	top:calc(50% - 10px);
+	right:calc(50% - 6px);
+	transform:rotate(-135deg);
+}
+@media screen and (max-width:480px) {
+	.hscroll ul {
+		overflow-x:auto;
+	}
+}
+
+.btn {
+  position:absolute;
+  top: 116%;
+  left: 27%;
+  width: 50%;
+  height: 20%;
+  display       : inline-block;
+  border-radius :2%;          /* 角丸       */
+  font-size     : 10pt;        /* 文字サイズ */
+  text-align    : center;      /* 文字位置   */
+  cursor        : pointer;     /* カーソル   */
+  padding       : 10px 10px;   /* 余白       */
+  background    : #ce9eff;     /* 背景色     */
+  color         : #ffffff;     /* 文字色     */
+  line-height   : 1em;         /* 1行の高さ  */
+  transition    : .3s;         /* なめらか変化 */
+  box-shadow    : 1px 1px 3px #f8f8ff;  /*影の設定 */
+  border        : 1px solid #adffff;    /* 枠の指定 */
+}
+.btn:hover {
+  box-shadow    : none;        /* カーソル時の影消去 */
+  color         : #ce9eff;     /* 背景色     */
+  background    : #fff;     /* 文字色     */
+}
+
+
