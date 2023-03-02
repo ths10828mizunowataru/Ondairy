@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="index.js" />
+    <!-- <link rel="stylesheet" href="index.js" /> -->
     <title>On Daily</title>
 </head>
 
@@ -16,15 +16,15 @@
         <span></span>
         <span></span>
         <span></span>
-      </div>
-      
-      <nav class="globalMenuSp">
-          <ul>
-              <li><a href="#">Menu1</a></li>
-              <li><a href="#">Menu2</a></li>
-              <li><a href="#">Menu3</a></li>
-          </ul>
-      </nav>
+    </div>
+
+    <nav class="globalMenuSp">
+        <ul>
+            <li><a href="#">Menu1</a></li>
+            <li><a href="#">Menu2</a></li>
+            <li><a href="#">Menu3</a></li>
+        </ul>
+    </nav>
 
 
 
@@ -54,60 +54,106 @@
     </div>
 
     <!-- ////////// コンセプト////////// -->
-
-    <div class="concept">
-        <img src="images/17.png" >
-      </div>
+    <h2 class="con">CONCEPT</h2>
     
-        <div class="concept-title">
-            <h3>おしゃれに妥協しないマスク。</h3>
-              <p>皆さまの生活に<br>自分の好きなオリジナルスタイルで<br>
-                 彩りや美しさを添えて、<br>
-                 より豊かで快適な日常をお届けします。</p>
-                 <span></span>
-          </div>
-          
-          <div class="concept-box"></div>
-          <div class="concept-boxs"></div>
+    <div class="concept">
+        <img src="images/17.png">
+    </div>
 
-          <div class="back">
-            <img src="images/over.jpg" >
-          </div>
+    <div class="concept-title">
+        <h3>おしゃれに妥協しないマスク。</h3>
+        <p>皆さまの生活に<br>自分の好きなオリジナルスタイルで<br>
+            彩りや美しさを添えて、<br>
+            より豊かで快適な日常をお届けします。</p>
+        <span></span>
+    </div>
 
-   
-          <div class="HOWTO">
-           <h2>HOW TO START</h2>
-           <p>OnDailyの始め方</p>
-            <div class="hscroll">
-                <ul>
-                    <li><img src="images/do-analysis.webp"></a></li>
-                    <li><img src="images/maskgirl.png"></a></li>
-                    <li><img src="images/deliver-product.webp"></a></li>
-                </ul>
-                <button type="submit" class="btn">< マスクを作ってみる</button>
-                <span class="arrow left"></span>
-                <span class="arrow right"></span>
-            </div>
-            </div>
+    <div class="concept-box"></div>
+    <div class="concept-boxs"></div>
+
+    <div class="back">
+        <img src="images/over.jpg">
+    </div>
+
+
+    <div class="HOWTO">
+        <h2>HOW TO START</h2>
+        <p class="to">OnDailyの始め方</p>
+        <div class="hscroll">
+            <img src="images/do-analysis.webp" id="image"><br>
+            <p id="text">デザインしてみる</p>
+            <button type="submit" class="btn">
+                < マスクを作ってみる</button>
+                    <span class="arrow left"></span>
+                    <span class="arrow right"></span>
         </div>
-        <script>
-            document.querySelectorAll('.left').forEach(elm => {
-                elm.onclick = function () {
-                    let ul = elm.parentNode.querySelector('ul');
-                    ul.scrollLeft -= ul.clientWidth;
-                };
-            });
-            document.querySelectorAll('.right').forEach(elm => {
-                elm.onclick = function () {
-                    let ul = elm.parentNode.querySelector('ul');
-                    ul.scrollLeft += ul.clientWidth;
-                };
-            });
-            </script>
+    </div>
+    </div>
+    <script>
+        const list = [['do-analysis.webp', 'デザインしてみる'], ['maskgirl.png', 'オリジナルを作成'], ['deliver-product.webp', 'あなただけの商品をお届け']]
+        let i = 0
+        document.querySelector('.right').addEventListener('click', () => {
+            i = i + 1
+            document.getElementById('image').src = `images/${list[i][0]}`
+            document.getElementById('text').innerText = list[i][1]
+        })
+        document.querySelector('.left').addEventListener('click', () => {
+            i = i - 1
+            document.getElementById('image').src = `images/${list[i][0]}`
+            document.getElementById('text').innerText = list[i][1]
+        })
+            // document.querySelectorAll('.left').forEach(elm => {
+            //     elm.onclick = function () {
+            //         let ul = elm.parentNode.querySelector('ul');
+            //         ul.scrollLeft -= ul.clientWidth;
+            //     };
+            // });
+            // document.querySelectorAll('.right').forEach(elm => {
+            //     elm.onclick = function () {
+            //         let ul = elm.parentNode.querySelector('ul');
+            //         ul.scrollLeft += ul.clientWidth;
+            //     };
+            // });
+    </script>
 
+<h2 class="title">Pick Up Items</h2>
+    <div class="box_wrapper">
+      <section class="box_item">
+        <a href="item001.html">
+          <img src="images/7.webp"  alt="" />
+          <h3>5Dmask</h3>
+        </a>
+      </section>
+      <section class="box_item">
+        <a href="item001.html">
+          <div class="image_wrapper"><img src="images/4d-9.webp" alt="" /></div>
+          <h3>4Dmask</h3>
+        </a>
+      </section>
+      <section class="box_item">
+        <a href="item001.html">
+          <div class="image_wrapper"><img src="images/a-6.webp" alt="" /></div>
+          <h3>3D-Atype</h3>
+        </a>
+      </section>
 
+      
 
-
+<!-- ////////// フッター ////////// -->
+<footer class="footer">
+    <div class="footer_copyright">
+      <p><span>omline makeup shop</span><br>
+        &copy; 2021 makeup</p>
+      </div>
+      <div class="footer_navigation">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </footer>
 
 </body>
 
