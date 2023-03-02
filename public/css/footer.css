@@ -1,5 +1,8 @@
 /*footer*/
  @charset "UTF-8";
+ {
+ 	box-sizing:
+ }
 
  body {
  	font-family: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", YuGothic, sans-serif;
