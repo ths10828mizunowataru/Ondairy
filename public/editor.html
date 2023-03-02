@@ -276,8 +276,6 @@
                 var uploads = [];
                 var storageRef = firebase.storage().ref('form-uploaded/' + "ユーザーidとタイムスタンプ");
                 uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
-<<<<<<< HEAD
-=======
 
                 addDoc(collection(db, "cart"), {
                     timestamp: Date.now()
@@ -298,7 +296,6 @@
                     console.error("Error writing document: ", error);
                 });
 
->>>>>>> 9880c64d8ef4f976e720e6670a79fd1c0cc74d95
                 Promise.all(uploads).then(function () {
                     console.log("処理完了", now)
                 });
