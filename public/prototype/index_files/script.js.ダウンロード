@@ -1,0 +1,41 @@
+//webfont
+
+ (function(d) {
+    var config = {
+      kitId: 'hni0vin',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+
+/*===========================================================*/
+/*5-1-17 クリックしたら円形背景が拡大（下から）*/
+/*===========================================================*/
+
+$(".openbtn").click(function () {//ボタンがクリックされたら
+	$(this).toggleClass('active');//ボタン自身に activeクラスを付与し
+    $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveクラスを付与
+    $(".circle-bg").toggleClass('circleactive');//丸背景にcircleactiveクラスを付与
+    $("#header").toggleClass('fixed');//今回のサイト用に追加
+});
+
+$("#g-nav a").click(function () {//ナビゲーションのリンクがクリックされたら
+    $(".openbtn").removeClass('active');//ボタンの activeクラスを除去し
+    $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveクラスを除去
+    $(".circle-bg").removeClass('circleactive');//丸背景のcircleactiveクラスを除去
+    $("#header").removeClass('fixede');//今回のサイト用に追加
+});
+
+
+/*===========================================================*/
+/*8-2-1 ページ内の指定の場所にスクロール*/
+/*===========================================================*/
+
+
+$('.btn[href*="#"],#g-nav a[href*="#"],.wrapper a[href*="#"]').click(function () {
+	var elmHash = $(this).attr('href'); //ページ内リンクのHTMLタグhrefから、リンクされているエリアidの値を取得
+	var pos = $(elmHash).offset().top;	//idの上部の距離を取得
+	$('body,html').animate({scrollTop: pos}, 500); //取得した位置にスクロール。500の数値が大きくなるほどゆっくりスクロール
+	return false;
+});

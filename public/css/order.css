@@ -33,8 +33,23 @@
 
 
 hr{
-	width: 80%;
+	width: 100%;
 	height: 1px;
 	background-color: rgba(14, 14, 14, 0.322);
 	border: 0px;
+}
+
+
+
+.item_select { /* フォーム・セレクト */
+	width:260px;
+	height: 60px;
+	margin-bottom: 20px;
+	padding:10px;
+	float: right;
+	font-size:16px;
+	border:solid 1px #ccc;
+	border-radius: 3px;
+	cursor: pointer;
+	outline:none;
 }
