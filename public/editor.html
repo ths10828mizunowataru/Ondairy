@@ -18,6 +18,9 @@
     <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
     <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
 
+    <!--　 fabric.jsの読込み　-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
+
         <script type="module" defer>
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
@@ -44,17 +47,28 @@
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getFirestore(app);
-            </script>
 
-        <!--　 fabric.jsの読込み　-->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
+            //サインアウトする
+            document.getElementById("signout").addEventListener("click", () => {
+                signOut(auth).then(() => {
+                    console.log("successful");
+                    location.href = "./login.html"
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
 
-        <!-- canvasのサンプル
-            https://ics.media/tutorial-three/model_basic/
-        <script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
-        <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
-        <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
-        -->
+            //サインインしていたらアカウント名を表示する
+            onAuthStateChanged(auth, (user) => {
+            let h3   = document.querySelector('h3');
+            if (user) {
+                h3.innerText = `${user.displayName}さんがログインしました`;
+                console.log(user);
+            } else {
+                console.log("Not Login");
+            }
+            });
+        </script>
 
         <style>
             .canvas {
@@ -64,10 +78,18 @@
         </style>
     </head>
     <body>
+        <!-- canvasのサンプル
+            https://ics.media/tutorial-three/model_basic/
+        <script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
+        <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
+        -->
+
         <a href="index.html"><button>トップ画面</button></a>
         <a href="login.html"><button>ログイン</button></a>
         <a href="editor.html"><button>編集画面</button></a>
         <a href="cart.html"><button>カート画面</button></a>
+        <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
         <div id="Circle" onclick="AddCircle()">●</div>
         <div id="Rect" onclick="AddRect()">■</div>
@@ -242,95 +264,23 @@
             <canvas id="myCanvas"></canvas>
         -->
 
-        <h3>イラストをダウンロード</h3>
-        <button id="download">aaaa</button>
+        <input id="add_cart" type="submit" value="このデザインをカートに追加する">
 
-        <form>
-            <input type="file" value="画像選択">
-            <input type="submit" value="アップロード">
-        </form>
-        <a href="mask.html"><button>次へ</button></a>
-        <script>
-
-        document.getElementById("download").onclick = (event) => {
-            let canvas = document.getElementById("canvas");
-
-            let link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
-            link.download = "test.png";
-            link.click();
-        }
-        // //3dのデータを読み込む
-        // // ページの読み込みを待つ
-        // window.addEventListener('DOMContentLoaded', init);
-
-        // function init() {
-        //     // サイズを指定
-        //     const width = 960;
-        //     const height = 540;
-
-        //     // レンダラーを作成
-        //     const canvasElement = document.querySelector('#myCanvas');
-        //     const renderer = new THREE.WebGLRenderer({
-        //         canvas: canvasElement,
-        //     });
-        //     renderer.setPixelRatio(window.devicePixelRatio);
-        //     renderer.setSize(width, height);
-
-        //     // シーンを作成
-        //     const scene = new THREE.Scene();
-
-        //     // カメラを作成
-        //     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
-        //     // カメラの初期座標を設定
-        //     camera.position.set(2, 2, 2);
-
-        //     // カメラコントローラーを作成
-        //     const controls = new THREE.OrbitControls(camera, canvasElement);
-        //     controls.target.set(0, 0, 0);
-        //     controls.update();
-
-        //     // 平行光源を作成
-        //     const directionalLight = new THREE.DirectionalLight(0xffffff);
-        //     directionalLight.position.set(1, 1, 1);
-        //     scene.add(directionalLight);
-        //     // 環境光を追加
-        //     const ambientLight = new THREE.AmbientLight(0xffffff);
-        //     scene.add(ambientLight);
-
-        //     // GLTF形式のモデルデータを読み込む
-        //     const loader = new THREE.GLTFLoader();
-        //     // GLTFファイルのパスを指定
-        //     loader.load('public/scene.gltf', (gltf) => {
-        //       // 読み込み後に3D空間に追加
-        //         const model = gltf.scene;
-        //         scene.add(model);
-        //     });
-
-        //     tick();
-
-        //     // 毎フレーム時に実行されるループイベントです
-        //     function tick() {
-        //       // レンダリング
-        //         renderer.render(scene, camera);
-        //         requestAnimationFrame(tick);
-        //     }
-        // }
-
-        var form = document.querySelector('form');
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var imgs = form.querySelector('input');
-            var uploads = [];
-            for (var file of imgs.files) {
-                var storageRef = firebase.storage().ref('form-uploaded/' + file.name);
-                uploads.push(storageRef.put(file));
-            }
-            Promise.all(uploads).then(function () {
-                alert('アップロード完了');
-                console.log("処理完了")
+        <h3>ログインは<a href="login.html">こちら</a>から</h3>
+        <div id="info"></div>
+        <script>//canvasの内容を現在時刻の名前で画像化する
+            document.getElementById("add_cart").addEventListener("click", function (e) {
+                let now = new Date();
+                let canvas = document.getElementById("canvas");
+                e.preventDefault();
+                var uploads = [];
+                var storageRef = firebase.storage().ref('form-uploaded/' + "ユーザーidとタイムスタンプ");
+                uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
+                Promise.all(uploads).then(function () {
+                    console.log("処理完了", now)
+                });
+                location.href = "cart.html";
             });
-        });
         </script>
     </body>
 </html>
