@@ -86,16 +86,16 @@
                         var storageRef = firebase.storage().ref('form-uploaded/' + uid + "/" + now);
 
                         //一意のデータとタイムスタンプをfirestoreに上げる
-                        addDoc(collection(db, "cart/" + uid + "/" + now), {
+                        addDoc(collection(db, "cart/" + uid + "/" + now), { //firestoreのフィールドに追加したい　loginのフォームのバリデーションチェックしたい
                             ユーザーID: uid,
                             canvas_make_time: now
                         }).then(
-                            console.log("firestoreにアップ成功")
+                            console.log("firestoreにアップ成功", storageRef)
                         ).catch((error) => {
                             console.log("firestoreにアップ失敗", error)
                         });
 
-                    } else {
+                    } else {//ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
                         var storageRef = firebase.storage().ref('form-uploaded/' + "");
                     }
                     uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
@@ -107,7 +107,7 @@
                 });
 
                 //画像化したらカートページへ移動する
-                // location.href = "cart.html";
+                //location.href = "cart.html";
             });
         </script>
 
@@ -309,7 +309,7 @@
 
         <input id="add_cart" type="submit" value="このデザインをカートに追加する">
 
-        <script>//canvasの内容を現在時刻の名前で画像化する
+        <script>
 
         </script>
     </body>
