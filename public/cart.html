@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="css/cart.css" />
-        
+
         <title>Ondairy</title>
 
         <!-- update the version number as needed -->
@@ -72,60 +72,74 @@
 
             //storageの画像を取得する
             // Get the download URL
-            getDownloadURL(ref(storage, 'form-uploaded/2NLbbj1v5QSxN31ZDSHOVJrLwU82/Fri Mar 03 2023 15:22:12 GMT+0900 (GMT+09:00)'))
-            .then((url) => {
-                // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
 
-                // This can be downloaded directly:
-                const xhr = new XMLHttpRequest();
-                xhr.responseType = 'blob';
-                xhr.onload = (event) => {
-                const blob = xhr.response;
-                };
-                xhr.open('GET', url);
-                xhr.send();
+            onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        let uid = user.uid;
+                        let now = new Date();
+                        console.log(user);
 
-                // Or inserted into an <img> element
-                const img = document.getElementById('img');
-                img.src = url;
+                      getDownloadURL(ref(storage, 'form-uploaded/' + uid))
+                      .then((url) => {
+                          // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
 
-                console.log("画像取得成功");
-            })
-            .catch((error) => {
-                console.log("画像取得失敗");
-            });
+                          // This can be downloaded directly:
+                          const xhr = new XMLHttpRequest();
+                          xhr.responseType = 'blob';
+                          xhr.onload = (event) => {
+                          const blob = xhr.response;
+                          };
+                          xhr.open('GET', url);
+                          xhr.send();
+
+                          // Or inserted into an <img> element
+                          const img = document.getElementById('img');
+                          img.src = url;
+
+                          console.log("画像取得成功");
+                      })
+                      .catch((error) => {
+                          console.log("画像取得失敗");
+                      });
+
+ //firestoreのフィールドに追加したい
+ //ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
+                    } else {
+                        var storageRef = firebase.storage().ref('form-uploaded/' + "");
+                    }
+                });
 
             // corsの参考
             // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
 
             //サインアウトする
-            // document.getElementById("signout").addEventListener("click", () => {
-            //     signOut(auth).then(() => {
-            //         console.log("successful");
-            //         location.href = "./login.html"
-            //     }).catch((error) => {
-            //         console.log(error);
-            //     })
-            // })
+            document.getElementById("signout").addEventListener("click", () => {
+                signOut(auth).then(() => {
+                    console.log("successful");
+                    location.href = "./login.html"
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
 
             //サインインしていたらアカウント名を表示する
-            // onAuthStateChanged(auth, (user) => {
-            // let h3   = document.querySelector('h3');
+            onAuthStateChanged(auth, (user) => {
+            let h3   = document.querySelector('h3');
 
-            // if (user) {
-            //     h3.innerText = `${user.displayName}さんがログインしました`;
-            //     console.log(user);
-            // } else {
-            //     console.log("Not Login");
-            // }
-            // });
+            if (user) {
+                h3.innerText = `${user.displayName}さんがログインしました`;
+                console.log(user);
+            } else {
+                console.log("Not Login");
+            }
+            });
         </script>
     </head>
 
-   
-        
-    
-  
+
+
+
+
       <body>
         <main>
           <div class="basket">
@@ -140,7 +154,7 @@
             <div class="basket-product">
               <div class="item">
                 <div class="product-image">
-                  <img src="./css/images/4.webp" alt="Placholder Image 2" class="product-frame">
+                  <img id="img" src="./css/images/4.webp" alt="Placholder Image 2" class="product-frame">
                 </div>
                 <div class="product-details">
                   <h1><strong><span class="item-quantity"></span></strong> </h1>
@@ -176,17 +190,16 @@
               </div>
             </div>
           </div>
-         
 
-          <button type="submit" class="btn">
-            < マスクを作ってみる</button>
+
+          <button type="submit" class="btn"><a href="editor.html">デザインを直す</a></button>
 
 
           </div>
 
         </main>
-      
-    
+
+
 
 
         <!-- テンプレート表示エリア -->

@@ -66,7 +66,7 @@
                 let h3   = document.querySelector('h3');
 
                 if (user) {
-                h3.innerText   = `${user.displayName}さんがログインしました`;
+                h3.innerText   = `${user.email}さんがログインしました`;
                 console.log(user);
                 } else {
                 console.log("Not Login");
@@ -85,8 +85,7 @@
                         let now = new Date();
                         var storageRef = firebase.storage().ref('form-uploaded/' + uid + "/" + now);
 
-                        //一意のデータとタイムスタンプをfirestoreに上げる
-                        addDoc(collection(db, "cart/" + uid + "/" + now), { //firestoreのフィールドに追加したい　loginのフォームのバリデーションチェックしたい
+                        addDoc(collection(db, "cart/" + uid + "/" + now), {
                             ユーザーID: uid,
                             canvas_make_time: now
                         }).then(
@@ -94,8 +93,9 @@
                         ).catch((error) => {
                             console.log("firestoreにアップ失敗", error)
                         });
-
-                    } else {//ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
+ //firestoreのフィールドに追加したい
+ //ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
+                    } else {
                         var storageRef = firebase.storage().ref('form-uploaded/' + "");
                     }
                     uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
@@ -107,7 +107,7 @@
                 });
 
                 //画像化したらカートページへ移動する
-                //location.href = "cart.html";
+                location.href = "cart.html";
             });
         </script>
 

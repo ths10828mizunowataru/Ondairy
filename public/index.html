@@ -61,7 +61,7 @@
         let h3   = document.querySelector('h3');
 
         if (user) {
-          h3.innerText   = `${user.displayName}さんがログインしました`;
+          h3.innerText   = `${user.email}さんがログインしました`;
           console.log(user);
         } else {
           console.log("Not Login");
@@ -146,8 +146,7 @@
           <div class="hscroll">
               <img src="./css/images/do-analysis.webp" id="image"><br>
               <p id="text">デザインしてみる</p>
-              <button type="submit" class="btn">
-                  < マスクを作ってみる</button>
+              <a href="editor.html"><button type="submit" class="btn">マスクを作ってみる</button></a>
                       <span class="arrow left"></span>
                       <span class="arrow right"></span>
           </div>
@@ -167,7 +166,7 @@
               document.getElementById('text').innerText = list[i][1]
           })
       </script>
-  
+
   <h2 class="title">Pick Up Items</h2>
       <div class="box_wrapper">
         <section class="box_item">
