@@ -55,7 +55,7 @@
           }
       });
 
-      //ログイン・ログオン
+      //ログイン
       document.getElementById("login").addEventListener("click", () => {
           let email = document.getElementById("email").value
           let password = document.getElementById("pass").value
@@ -63,19 +63,6 @@
           signInWithEmailAndPassword(auth, email, password)
               .then((userCredential) => {
                 const user = userCredential.user
-                let uid = user.uid;
-
-                addDoc(collection(db, "member_Info/" + uid), {
-                    ユーザーID: uid,
-                    email: document.getElementById("email").value,
-                    pass: document.getElementById("pass").value,
-                    login_time: Date.now()
-                }).then(() => {
-                  console.log("firestoreにアップ成功");
-
-                }).catch((error) => {
-                  console.error("firestoreにアップ失敗", error);
-                });
 
                 console.log(user);
               })
@@ -86,6 +73,40 @@
               })
       })
 
+      //新規登録
+      document.getElementById("submit").addEventListener("click", () => {
+        register.addEventListener('click', function(e) {
+        var email = document.getElementById('email').value;
+        var pass = document.getElementById('pass').value;
+
+        firebase.auth().createUserWithEmailAndPassword(email, pass)
+        .then(() => {
+          console.log("アカウント登録しました")
+        })
+        .catch((error) => {
+          alert('登録できません（' + error.message + '）');
+        });
+      });
+        // addDoc(collection(db, "member_info"), {
+        //         email: document.getElementById("email").value,
+        //         pass: document.getElementById("pass").value,
+        //         timestamp: Date.now()
+        //   }).then(() => {
+        //     //フォームの値でログインする
+        //     console.log("Document successfully written!");
+        //     signInWithEmailAndPassword(auth, email, password)
+        //       .then((userCredential) => {
+        //           // Signed in
+        //           const user = userCredential.user
+        //           console.log("ログイン成功");
+        //       })
+        //       .catch((error) => {
+        //       })
+        //   }).catch((error) => {
+        //     console.error("Error writing document: ", error);
+        //   });
+      });
+
       //パスワードリセット
       document.getElementById("pass_reset").addEventListener("click", () => {
         let email = document.getElementById("email").value
@@ -93,7 +114,7 @@
         sendPasswordResetEmail(auth, email)
         .then(() => {
           // Password reset email sent!
-          error.innerText = `パスワード変更メールを送りました`;
+          error.innerText = `パスワードリセットメールを送りました`;
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -133,7 +154,7 @@
     <a href="cart.html"><button>カート画面</button></a>
 
     <div id="error">
-      <h3 id="error_code"></h3>
+      <h3 id="error_code">パスワードは6文字以上で設定して下さい</h3>
     </div>
 
     <div>
@@ -141,7 +162,7 @@
       <input type="email" id="email" name="email">
       <label for="pass">パスワード</label>
       <input type="password" id="pass" name="pass" autocomplete="on">
-      <button id="login">ログイン・ログオン</button>
+      <button id="login">ログイン</button>
     </div>
 
     <button id="submit">新規登録</button>
