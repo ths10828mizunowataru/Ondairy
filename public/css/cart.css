@@ -5,6 +5,58 @@ body {
 	background-color: #fffafa;
 }
 
-.h3{
-    font-size: 30px ;
+.top h3{
+    position: absolute;
+    top: 0%;
+    left: 45%;
+    color: #000000ba;
+    font-size: 55px ;
+}
+
+.senter p{
+    position: absolute;
+    top: 28%;
+    left: 6%;
+    font-size: 20px ;
+    color: #000000e0;
+
+}
+
+.senters p{
+    position: absolute;
+    top: 32%;
+    left: 6%;
+    font-size: 15px ;
+    color: #000000e0;
+}
+
+.un{
+    background-color: black;
+    width: 100%;
+}
+.under p{
+    position: absolute;
+    top: 40%;
+    left: 0%;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    color: #fff;
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.concept img{
+    z-index: 10;
+	width: 40%;
+    height: 40%;
+    object-fit: cover;
+	max-width: unset;
+    position: absolute;
+    top: 80%;
+    left: 30%;
+    transform: translate(-50%,-50%);
+	
 }
