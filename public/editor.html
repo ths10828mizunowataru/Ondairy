@@ -25,6 +25,7 @@
             // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
             import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+            import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
             import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
             // TODO: Add SDKs for Firebase products that you want to use
             // https://firebase.google.com/docs/web/setup#available-libraries
@@ -47,6 +48,8 @@
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getFirestore(app);
+            var auth = getAuth();
+            var user = auth.currentUser;
 
             //サインアウトする
             document.getElementById("signout").addEventListener("click", () => {
@@ -60,13 +63,57 @@
 
             //サインインしていたらアカウント名を表示する
             onAuthStateChanged(auth, (user) => {
-            let h3   = document.querySelector('h3');
-            if (user) {
-                h3.innerText = `${user.displayName}さんがログインしました`;
+                let h3   = document.querySelector('h3');
+
+                if (user) {
+                h3.innerText   = `${user.displayName}さんがログインしました`;
                 console.log(user);
-            } else {
+                } else {
                 console.log("Not Login");
-            }
+                }
+            });
+
+            document.getElementById("add_cart").addEventListener("click", function (e) {
+                let canvas = document.getElementById("canvas");
+                e.preventDefault();
+                var uploads = [];
+                //ログインしてるかどうかでファイル名を変える
+                onAuthStateChanged(auth, (user) => {
+                    let uid = user.uid;
+                    let now = new Date();
+                    if (user) {
+                        var storageRef = firebase.storage().ref('form-uploaded/' + uid + now);
+
+                        addDoc(collection(db, "cart"), {
+                            timestamp: Date.now()
+                        }).then(() => {
+                            console.log("デザインをfirestoreに上げる");
+                            signInWithEmailAndPassword(auth, email, password)
+                            .then((userCredential) => {
+                                // Signed in
+                                const user = userCredential.user
+                                console.log(user);
+                            })
+                            .catch((error) => {
+                                const errorMessage = error.message
+                                console.log(errorMessage);
+                                error_code.innerHTML = "メールアドレスまたはパスワードが違います";
+                            })
+                        }).catch((error) => {
+                            console.error("Error writing document: ", error);
+                        });
+
+                    } else {
+                        var storageRef = firebase.storage().ref('form-uploaded/' + "");
+                    }
+                    uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
+                });
+
+
+
+                Promise.all(uploads).then(function () {
+                    console.log("処理完了")
+                });
             });
         </script>
 
@@ -90,6 +137,8 @@
         <a href="editor.html"><button>編集画面</button></a>
         <a href="cart.html"><button>カート画面</button></a>
         <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
+
+        <h3>ログインは<a href="login.html">こちら</a>から</h3>
 
         <div id="Circle" onclick="AddCircle()">●</div>
         <div id="Rect" onclick="AddRect()">■</div>
@@ -266,41 +315,8 @@
 
         <input id="add_cart" type="submit" value="このデザインをカートに追加する">
 
-        <h3>ログインは<a href="login.html">こちら</a>から</h3>
-        <div id="info"></div>
         <script>//canvasの内容を現在時刻の名前で画像化する
-            document.getElementById("add_cart").addEventListener("click", function (e) {
-                let now = new Date();
-                let canvas = document.getElementById("canvas");
-                e.preventDefault();
-                var uploads = [];
-                var storageRef = firebase.storage().ref('form-uploaded/' + "ユーザーidとタイムスタンプ");
-                uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
 
-                addDoc(collection(db, "cart"), {
-                    timestamp: Date.now()
-                }).then(() => {
-                    console.log("デザインをfirestoreに上げる");
-                    signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        // Signed in
-                        const user = userCredential.user
-                        console.log(user);
-                    })
-                    .catch((error) => {
-                        const errorMessage = error.message
-                        console.log(errorMessage);
-                        error_code.innerHTML = "メールアドレスまたはパスワードが違います";
-                    })
-                }).catch((error) => {
-                    console.error("Error writing document: ", error);
-                });
-
-                Promise.all(uploads).then(function () {
-                    console.log("処理完了", now)
-                });
-                location.href = "cart.html";
-            });
         </script>
     </body>
 </html>
