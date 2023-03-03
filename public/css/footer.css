@@ -52,13 +52,6 @@
  .footer_navigation li {
  	display: inline-block;
  }
- .footer_navigation li a {
- 	margin-left: 32px;
- 	font-size: 14px;
- 	font-weight: bold;
- 	color: #333;
- 	letter-spacing: 2px;
- }
  .name{
     width: 50%;
-}
+ }
