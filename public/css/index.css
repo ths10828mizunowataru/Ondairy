@@ -474,6 +474,7 @@ position: absolute;
   transition    : .3s;         /* なめらか変化 */
   box-shadow    : 1px 1px 6px #f8f8ff;  /*影の設定 */
   border        : 1.5px solid #9aeaea;    /* 枠の指定 */
+ 
 }
 .btn:hover {
   box-shadow    : none;        /* カーソル時の影消去 */
