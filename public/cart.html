@@ -141,36 +141,65 @@
             });
         </script>
     </head>
-    <body>
-        <header></header>
-        <a href="index.html"><button>トップ画面</button></a>
-        <a href="login.html"><button>ログイン</button></a>
-        <a href="editor.html"><button>編集画面</button></a>
-        <a href="cart.html"><button>カート画面</button></a>
-        <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
-
-        <h3>CART</h3>
-
-        <p class="1">
-            お支払い・お届け先の指定・お届け日の指定 > ご注文内容の確認 > ご注文完了
-        </p>
-
-        <p class="2">
-            ※セール商品の返品・交換・キャンセルはできません。予めご了承下さい。
-        </p>
-
-
-
-        <div class="">
-
+    <body><!DOCTYPE html>
+        <html lang="ja">
+        
+        <head>
+            <meta charset="utf-8" />
+            <link rel="stylesheet" href="css/cart.css"/>
+           
+            <title>CART</title>
+        </head>
+        
+        
+        
+        <body>
+        
+        <div class="top">
+            <h3>CART</h3>
         </div>
-
-        <!-- テンプレートとして表示したい内容 -->
-        <template id="template">
-            <img id="img" src="" alt="">
-            <h1></h1>
-        </template>
-
+        
+        <div class="senter">
+            <p>
+                お支払い・お届け先の指定・お届け日の指定 > ご注文内容の確認 > ご注文完了
+             </p>
+        </div>
+        
+        <div class="senters">
+            <p>
+                ※セール商品の返品・交換・キャンセルはできません。予めご了承下さい。
+            </p>   
+        </div>
+            
+        
+        <div class="under">
+            <p>
+            　　　　　　　　　　　商品　　　　　　　　　　　　　　　　　　　　　　　価格　　　　数量　　　　　　　　　　　　　　小計(税込)
+            </p>
+        </div>
+        
+        
+        <div class="concept">
+            <img src="images/pleats.webp" >
+        </div>
+        
+        
+        
+        
+            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
         <!-- テンプレート表示エリア -->
         <div id="container"></div>
 
