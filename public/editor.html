@@ -73,47 +73,41 @@
                 }
             });
 
+            //キャンバスの描画内容をstorageにアップする
             document.getElementById("add_cart").addEventListener("click", function (e) {
                 let canvas = document.getElementById("canvas");
                 e.preventDefault();
                 var uploads = [];
-                //ログインしてるかどうかでファイル名を変える
+                //ログインしてるかどうかで収納先を変える
                 onAuthStateChanged(auth, (user) => {
-                    let uid = user.uid;
-                    let now = new Date();
                     if (user) {
-                        var storageRef = firebase.storage().ref('form-uploaded/' + uid + now);
+                        let uid = user.uid;
+                        let now = new Date();
+                        var storageRef = firebase.storage().ref('form-uploaded/' + uid + "/" + now);
 
-                        addDoc(collection(db, "cart"), {
-                            timestamp: Date.now()
-                        }).then(() => {
-                            console.log("デザインをfirestoreに上げる");
-                            signInWithEmailAndPassword(auth, email, password)
-                            .then((userCredential) => {
-                                // Signed in
-                                const user = userCredential.user
-                                console.log(user);
-                            })
-                            .catch((error) => {
-                                const errorMessage = error.message
-                                console.log(errorMessage);
-                                error_code.innerHTML = "メールアドレスまたはパスワードが違います";
-                            })
-                        }).catch((error) => {
-                            console.error("Error writing document: ", error);
+                        //一意のデータとタイムスタンプをfirestoreに上げる
+                        addDoc(collection(db, "cart/" + uid + "/" + now), {
+                            ユーザーID: uid,
+                            canvas_make_time: now
+                        }).then(
+                            console.log("firestoreにアップ成功")
+                        ).catch((error) => {
+                            console.log("firestoreにアップ失敗", error)
                         });
 
                     } else {
                         var storageRef = firebase.storage().ref('form-uploaded/' + "");
                     }
                     uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
+                    console.log("storageにアップ成功")
                 });
-
-
 
                 Promise.all(uploads).then(function () {
                     console.log("処理完了")
                 });
+
+                //画像化したらカートページへ移動する
+                // location.href = "cart.html";
             });
         </script>
 
