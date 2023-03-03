@@ -72,7 +72,7 @@
 
             //storageの画像を取得する
             // Get the download URL
-            getDownloadURL(ref(storage, 'form-uploaded/ユーザーidとタイムスタンプ'))
+            getDownloadURL(ref(storage, 'form-uploaded/' + uid ))
             .then((url) => {
                 // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
 
@@ -87,61 +87,41 @@
 
                 // Or inserted into an <img> element
                 const img = document.getElementById('img');
-                img.setAttribute('src', url);
+                img.src = url;
 
                 console.log("画像取得成功");
             })
             .catch((error) => {
-
                 console.log("画像取得失敗");
-
-                // A full list of error codes is available at
-                // https://firebase.google.com/docs/storage/web/handle-errors
-                switch (error.code) {
-                case 'storage/object-not-found':
-                    // File doesn't exist
-                    break;
-                case 'storage/unauthorized':
-                    // User doesn't have permission to access the object
-                    break;
-                case 'storage/canceled':
-                    // User canceled the upload
-                    break;
-
-                // ...
-
-                case 'storage/unknown':
-                    // Unknown error occurred, inspect the server response
-                    break;
-                }
             });
 
             // corsの参考
             // https://qiita.com/chima91novice/items/0cd46b5965e087609ef5#:~:text=Web%2FHTML%2FCORS_enabled_image-,%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82CORS%E3%81%A8%E3%81%AF,%E3%81%AE%E3%82%82%E3%81%AE%E3%81%A0%E3%81%A8%E3%81%8B%E3%81%AA%E3%82%93%E3%81%A8%E3%81%8B%E3%80%82
 
             //サインアウトする
-            document.getElementById("signout").addEventListener("click", () => {
-                signOut(auth).then(() => {
-                    console.log("successful");
-                    location.href = "./login.html"
-                }).catch((error) => {
-                    console.log(error);
-                })
-            })
+            // document.getElementById("signout").addEventListener("click", () => {
+            //     signOut(auth).then(() => {
+            //         console.log("successful");
+            //         location.href = "./login.html"
+            //     }).catch((error) => {
+            //         console.log(error);
+            //     })
+            // })
 
             //サインインしていたらアカウント名を表示する
-            onAuthStateChanged(auth, (user) => {
-            let h3   = document.querySelector('h3');
+            // onAuthStateChanged(auth, (user) => {
+            // let h3   = document.querySelector('h3');
 
-            if (user) {
-                h3.innerText = `${user.displayName}さんがログインしました`;
-                console.log(user);
-            } else {
-                console.log("Not Login");
-            }
-            });
+            // if (user) {
+            //     h3.innerText = `${user.displayName}さんがログインしました`;
+            //     console.log(user);
+            // } else {
+            //     console.log("Not Login");
+            // }
+            // });
         </script>
     </head>
+
    
         
     
@@ -151,59 +131,64 @@
           <div class="basket">
             <div class="basket-labels">
               <ul>
-                <li class="item item-heading">Item</li>
-                <li class="price">Price</li>
-                <li class="quantity">Quantity</li>
-                <li class="subtotal">Subtotal</li>
+                <li class="item item-heading">商品</li>
+                <li class="price">値段</li>
+                <li class="quantity">数量</li>
+                <li class="subtotal">合計(税込)</li>
               </ul>
             </div>
             <div class="basket-product">
               <div class="item">
                 <div class="product-image">
-                  <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">
+                  <img src="./css/images/4.webp" alt="Placholder Image 2" class="product-frame">
                 </div>
                 <div class="product-details">
-                  <h1><strong><span class="item-quantity">4</span> x Eliza J</strong> Lace Sleeve Cuff Dress</h1>
-                  <p><strong>Navy, Size 18</strong></p>
-                  <p>Product Code - 232321939</p>
+                  <h1><strong><span class="item-quantity"></span></strong> </h1>
+                  <p><strong>Caramel | Black</strong></p>
                 </div>
               </div>
-              <div class="price">26.00</div>
+              <div class="price">¥400</div>
               <div class="quantity">
                 <input type="number" value="4" min="1" class="quantity-field">
               </div>
-              <div class="subtotal">104.00</div>
+              <div class="subtotal">¥400</div>
               <div class="remove">
-                <button>Remove</button>
+                <button>消去</button>
               </div>
             </div>
             <div class="basket-product">
               <div class="item">
                 <div class="product-image">
-                  <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">
+                  <img src="./css/images/pleats.webp" alt="Placholder Image 2" class="product-frame">
                 </div>
                 <div class="product-details">
-                  <h1><strong><span class="item-quantity">1</span> x Whistles</strong> Amella Lace Midi Dress</h1>
-                  <p><strong>Navy, Size 10</strong></p>
-                  <p>Product Code - 232321939</p>
+                  <h1><strong><span class="item-quantity"></span> </strong> </h1>
+                  <p><strong>Lavender | Black</strong></p>
                 </div>
               </div>
-              <div class="price">26.00</div>
+              <div class="price">¥400</div>
               <div class="quantity">
                 <input type="number" value="1" min="1" class="quantity-field">
               </div>
-              <div class="subtotal">26.00</div>
+              <div class="subtotal">¥400</div>
               <div class="remove">
-                <button>Remove</button>
+                <button>消去</button>
               </div>
             </div>
           </div>
          
+
+          <button type="submit" class="btn">
+            < マスクを作ってみる</button>
+
+
+          </div>
+
         </main>
       
-        
-        
     
+
+
         <!-- テンプレート表示エリア -->
         <div id="container"></div>
 

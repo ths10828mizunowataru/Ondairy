@@ -55,16 +55,29 @@
           }
       });
 
-      //ログイン
+      //ログイン・ログオン
       document.getElementById("login").addEventListener("click", () => {
           let email = document.getElementById("email").value
           let password = document.getElementById("pass").value
           let error_code = document.getElementById("error_code")
           signInWithEmailAndPassword(auth, email, password)
               .then((userCredential) => {
-                  // Signed in
-                  const user = userCredential.user
-                  console.log(user);
+                const user = userCredential.user
+                let uid = user.uid;
+
+                addDoc(collection(db, "member_Info/" + uid), {
+                    ユーザーID: uid,
+                    email: document.getElementById("email").value,
+                    pass: document.getElementById("pass").value,
+                    login_time: Date.now()
+                }).then(() => {
+                  console.log("firestoreにアップ成功");
+
+                }).catch((error) => {
+                  console.error("firestoreにアップ失敗", error);
+                });
+
+                console.log(user);
               })
               .catch((error) => {
                   const errorMessage = error.message
@@ -72,31 +85,6 @@
                   error_code.innerHTML = "メールアドレスまたはパスワードが違います";
               })
       })
-
-      //新規登録
-      document.getElementById("submit").addEventListener("click", () => {
-        const docRef = addDoc(collection(db, "Menber_Info"), {
-                title: "メールアドレス,パスワード",
-                email: document.getElementById("email").value,
-                pass: document.getElementById("pass").value,
-                timestamp: Date.now()
-          }).then(() => {
-            console.log("Document successfully written!");
-            signInWithEmailAndPassword(auth, email, password)
-              .then((userCredential) => {
-                  // Signed in
-                  const user = userCredential.user
-                  console.log(user);
-              })
-              .catch((error) => {
-                  const errorMessage = error.message
-                  console.log(errorMessage);
-                  error_code.innerHTML = "メールアドレスまたはパスワードが違います";
-              })
-          }).catch((error) => {
-            console.error("Error writing document: ", error);
-          });
-      });
 
       //パスワードリセット
       document.getElementById("pass_reset").addEventListener("click", () => {
@@ -153,7 +141,7 @@
       <input type="email" id="email" name="email">
       <label for="pass">パスワード</label>
       <input type="password" id="pass" name="pass" autocomplete="on">
-      <button id="login">ログイン</button>
+      <button id="login">ログイン・ログオン</button>
     </div>
 
     <button id="submit">新規登録</button>
