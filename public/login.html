@@ -24,7 +24,7 @@
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
       import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -55,12 +55,12 @@
           }
       });
 
-      //ログイン
+      //ログイン・ログオン
       document.getElementById("login").addEventListener("click", () => {
           let email = document.getElementById("email").value
-          let password = document.getElementById("pass").value
+          let pass = document.getElementById("pass").value
           let error_code = document.getElementById("error_code")
-          signInWithEmailAndPassword(auth, email, password)
+          signInWithEmailAndPassword(auth, email, pass)
               .then((userCredential) => {
                 const user = userCredential.user
 
@@ -70,23 +70,18 @@
                   const errorMessage = error.message
                   console.log(errorMessage);
                   error_code.innerHTML = "メールアドレスまたはパスワードが違います";
+
+
+                  createUserWithEmailAndPassword(auth, email, pass)
+                  .then(() => {
+                    console.log("アカウント登録しました")
+                  })
+                  .catch((error) => {
+                    alert('登録できません（' + error.message + '）');
+                  });
               })
       })
 
-      //新規登録
-      document.getElementById("submit").addEventListener("click", () => {
-        register.addEventListener('click', function(e) {
-        var email = document.getElementById('email').value;
-        var pass = document.getElementById('pass').value;
-
-        firebase.auth().createUserWithEmailAndPassword(email, pass)
-        .then(() => {
-          console.log("アカウント登録しました")
-        })
-        .catch((error) => {
-          alert('登録できません（' + error.message + '）');
-        });
-      });
         // addDoc(collection(db, "member_info"), {
         //         email: document.getElementById("email").value,
         //         pass: document.getElementById("pass").value,
@@ -105,7 +100,6 @@
         //   }).catch((error) => {
         //     console.error("Error writing document: ", error);
         //   });
-      });
 
       //パスワードリセット
       document.getElementById("pass_reset").addEventListener("click", () => {
@@ -154,7 +148,7 @@
     <a href="cart.html"><button>カート画面</button></a>
 
     <div id="error">
-      <h3 id="error_code">パスワードは6文字以上で設定して下さい</h3>
+      <h3 id="error_code"></h3>
     </div>
 
     <div>
@@ -162,7 +156,7 @@
       <input type="email" id="email" name="email">
       <label for="pass">パスワード</label>
       <input type="password" id="pass" name="pass" autocomplete="on">
-      <button id="login">ログイン</button>
+      <button id="login">ログイン・ログオン</button>
     </div>
 
     <button id="submit">新規登録</button>

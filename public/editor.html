@@ -61,17 +61,17 @@
                 })
             })
 
-            //サインインしていたらアカウント名を表示する
-            onAuthStateChanged(auth, (user) => {
-                let h3   = document.querySelector('h3');
+            // //サインインしていたらアカウント名を表示する
+            // onAuthStateChanged(auth, (user) => {
+            //     let h3   = document.querySelector('h3');
 
-                if (user) {
-                h3.innerText   = `${user.displayName}さんがログインしました`;
-                console.log(user);
-                } else {
-                console.log("Not Login");
-                }
-            });
+            //     if (user) {
+            //     h3.innerText   = `${user.email}さんがログインしました`;
+            //     console.log(user);
+            //     } else {
+            //     console.log("Not Login");
+            //     }
+            // });
 
             //キャンバスの描画内容をstorageにアップする
             document.getElementById("add_cart").addEventListener("click", function (e) {
@@ -85,8 +85,7 @@
                         let now = new Date();
                         var storageRef = firebase.storage().ref('form-uploaded/' + uid + "/" + now);
 
-                        //一意のデータとタイムスタンプをfirestoreに上げる
-                        addDoc(collection(db, "cart/" + uid + "/" + now), { //firestoreのフィールドに追加したい　loginのフォームのバリデーションチェックしたい
+                        addDoc(collection(db, "cart/" + uid + "/" + now), {
                             ユーザーID: uid,
                             canvas_make_time: now
                         }).then(
@@ -94,8 +93,9 @@
                         ).catch((error) => {
                             console.log("firestoreにアップ失敗", error)
                         });
-
-                    } else {//ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
+ //firestoreのフィールドに追加したい
+ //ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
+                    } else {
                         var storageRef = firebase.storage().ref('form-uploaded/' + "");
                     }
                     uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
@@ -107,7 +107,7 @@
                 });
 
                 //画像化したらカートページへ移動する
-                //location.href = "cart.html";
+                location.href = "cart.html";
             });
         </script>
 
@@ -132,7 +132,7 @@
         <a href="cart.html"><button>カート画面</button></a>
         <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-        <h3>ログインは<a href="login.html">こちら</a>から</h3>
+        <!-- <h3>ログインは<a href="login.html">こちら</a>から</h3> -->
 
         <div id="Circle" onclick="AddCircle()">●</div>
         <div id="Rect" onclick="AddRect()">■</div>
@@ -158,7 +158,7 @@
             <h3>角度変更</h3>
             <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
         </div>
-        <!--　マスクを選択　-->
+        <!-- 　マスクを選択　-->
         <h3>マスクの種類を選択</h3>
         <button type="button" onclick="uretan()">ウレタンマスク</button>
         <a href="ウレタンマスク.png"></a>
