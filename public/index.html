@@ -158,12 +158,12 @@
           let i = 0
           document.querySelector('.right').addEventListener('click', () => {
               i = i + 1
-              document.getElementById('image').src = `images/${list[i][0]}`
+              document.getElementById('image').src = `css/images/${list[i][0]}`
               document.getElementById('text').innerText = list[i][1]
           })
           document.querySelector('.left').addEventListener('click', () => {
               i = i - 1
-              document.getElementById('image').src = `images/${list[i][0]}`
+              document.getElementById('image').src = `css/images/${list[i][0]}`
               document.getElementById('text').innerText = list[i][1]
           })
       </script>
