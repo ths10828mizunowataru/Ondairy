@@ -91,18 +91,19 @@
             </div>
         </div>
         <script>
-            document.querySelectorAll('.left').forEach(elm => {
-                elm.onclick = function () {
-                    let ul = elm.parentNode.querySelector('ul');
-                    ul.scrollLeft -= ul.clientWidth;
-                };
-            });
-            document.querySelectorAll('.right').forEach(elm => {
-                elm.onclick = function () {
-                    let ul = elm.parentNode.querySelector('ul');
-                    ul.scrollLeft += ul.clientWidth;
-                };
-            });
+              const list = [['do-analysis.webp', 'デザインしてみる'], ['maskgirl.png', 'オリジナルを作成'], ['deliver-product.webp', 'あなただけの商品をお届け']]
+          let i = 0
+          document.querySelector('.right').addEventListener('click', () => {
+              i = i + 1
+              document.getElementById('image').src = `images/${list[i][0]}`
+              document.getElementById('text').innerText = list[i][1]
+          })
+          document.querySelector('.left').addEventListener('click', () => {
+              i = i - 1
+              document.getElementById('image').src = `images/${list[i][0]}`
+              document.getElementById('text').innerText = list[i][1]
+          })
+      </script>
             </script>
 
 

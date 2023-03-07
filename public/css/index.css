@@ -314,7 +314,7 @@ position: absolute;
 }
 .arrow:before {
 	content:'';
-	position:absolute;
+	position:absolute; 
 	width:10px;
 	height:10px;
 	border-left:4px solid #000000ba;
