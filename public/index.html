@@ -3,144 +3,199 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css"/>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/index.js" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <title>Ondairy</title>
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/9.14.0/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/9.14.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/9.14.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
+    <script type="module" defer>
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
-    authDomain: "ih12b213-4.firebaseapp.com",
-    databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
-    projectId: "ih12b213-4",
-    storageBucket: "ih12b213-4.appspot.com",
-    messagingSenderId: "988142203119",
-    appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
-    measurementId: "G-C80M7XW650"
-  };
-  firebase.initializeApp(config);
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
+        authDomain: "ih12b213-4.firebaseapp.com",
+        databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
+        projectId: "ih12b213-4",
+        storageBucket: "ih12b213-4.appspot.com",
+        messagingSenderId: "988142203119",
+        appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+        measurementId: "G-C80M7XW650"
+      };
 
-  firebase.initializeApp(firebaseConfig);
-
-  let uiConfig = {
-      callbacks: {
-          signInSuccessWithAuthResult: function () {
-              console.log("ログイン成功")
-              return true;
-          },
-      },
-      signInOptions: [
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      ],
-  };
-
-  let ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', uiConfig);
-</script>
-
-  </head>
-  <body>
-    <main>
-      <h1>メインページかもー</h1>
-      <input type="button" onclick="location.href='editor.html'" value="editor.html">
-   </main>
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const user = auth.currentUser;
 
 
 
-   <div id="firebaseui-auth-container"></div>
+      //サインインしていたらサインアウトを表示する
+      onAuthStateChanged(auth, (user) => {
+        let header  = document.querySelector('header');
 
+        if (user) {
+          header.innerHTML   = `
+            <a href="index.html"><button>トップ画面</button></a>
+            <a href="editor.html"><button>編集画面</button></a>
+            <a href="cart.html"><button>カート画面</button></a>
+            <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>`;
+          console.log(user);
 
-
-   <div id="message">
-      <h1>Firebase</h1>
-      <p>文字を入れると更新されます</p>
-      <ul>
-        <li id="chatText"></li>
-        <li><input type="text" name="" id="mailaddoress"></li>
-        <li><a onclick="changeData()">更新</a></li>
-      </ul>
-    </div>
-
-    <script>
-      var db = firebase.database();
-      var myChatAll = db.ref("/my/chat/all");
-
-      function changeData(){
-        var text = document.getElementById("mailaddoress").value;
-        myChatAll.set({title:"example", text:text});
-      }
-
-      myChatAll.on("value", function(snapshot) {
-        document.getElementById("chatText").innerText = snapshot.val().text;
+          //サインアウトする
+          document.getElementById("signout").addEventListener("click", () => {
+              signOut(auth).then(() => {
+                  console.log("successful");
+                  location.href = "./login.html"
+              }).catch((error) => {
+                  console.log(error);
+              })
+      })
+        } else {
+          console.log("Not Login");
+        }
       });
     </script>
+</head>
+
+<body>
+
+    <!-- ////////// ヘッダー ・ハンバーガー////////// -->
+
+
+    <header id="header">
+      <a href="index.html"><button>トップ画面</button></a>
+      <a href="login.html"><button>ログイン</button></a>
+      <a href="editor.html"><button>編集画面</button></a>
+      <a href="cart.html"><button>カート画面</button></a>
+    </header>
+
+    <!-- <h3>新規登録は<a href="login.html">こちら</a>から</h3> -->
+    <footer></footer>
+
+    <!-- Authenticationのサンプル
+    https://www.topgate.co.jp/firebase05-firebase-authentication
+    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
+
+    FireStoreのサンプル
+    https://blog.katsubemakito.net/firebase/firebase-authentication-email-web1
 
 
 
-    <form action="/index.html" method="post">
-      <div>
-        <label for="email">メールアドレス</label>
-        <input type="mail" id="email" name="email">
+
+
+
+
+    <div class="container">
+        <!-- ////////// スライダーエリア ////////// -->
+        <div class="top-title">
+          <p class="top_ms">
+              Enjoy<br />
+              yourself style<br />
+              & comfortable mask
+          </p>
+          <div class="logo">
+              <p class="name">OnDaily</p>
+              <div class="logo_img">
+                  <img src="./css/images/IMG_0544.png" />
+              </div>
+          </div>
       </div>
-      <div>
-        <label for="pass">パスワード</label>
-        <input type="password" id="pass" name="pass">
+      <!-- //////////トップ画像////////// -->
+      <div class="slider">
+          <img src="./css/images/2.png" />
       </div>
-      <div>
-        <label for="submit">ログイン</label>
-        <input type="submit" id="submit" name="submit"><a onclick="submit()"></a>
-      </div>
-    </form>
+  </div>
 
-    <script>
-      function submit() {
-        var database = firebase.database();
-        database.ref("Information").set({
-              title: "メールアドレス,パスワード",
-              body: email,
-              body: pass
-          });
-        var email = document.getlementById(email).value;
-        var pass = document.getElementById(pass).value;
-        console.log(email.pass)
-      }
-    </script>
-  </body>
+  <!-- ////////// コンセプト////////// -->
+
+  <div class="concept">
+      <img src="./css/images/17.png" >
+    </div>
+
+      <div class="concept-title">
+          <h3>おしゃれに妥協しないマスク。</h3>
+            <p>皆さまの生活に<br>自分の好きなオリジナルスタイルで<br>
+               彩りや美しさを添えて、<br>
+               より豊かで快適な日常をお届けします。</p>
+               <span></span>
+        </div>
+
+        <div class="concept-box"></div>
+        <div class="concept-boxs"></div>
+
+        <div class="back">
+          <img src="./css/images/over.jpg" >
+        </div>
+
+
+        <div class="HOWTO">
+          <h2>HOW TO START</h2>
+          <p class="to">OnDailyの始め方</p>
+          <div class="hscroll">
+              <img src="./css/images/do-analysis.webp" id="image"><br>
+              <p id="text">デザインしてみる</p>
+              <a href="editor.html"><button type="submit" class="btn">マスクを作ってみる</button></a>
+                      <span class="arrow left"></span>
+                      <span class="arrow right"></span>
+          </div>
+      </div>
+      </div>
+      <script>
+          const list = [['do-analysis.webp', 'デザインしてみる'], ['maskgirl.png', 'オリジナルを作成'], ['deliver-product.webp', 'あなただけの商品をお届け']]
+          let i = 0
+          document.querySelector('.right').addEventListener('click', () => {
+              i = i + 1
+              document.getElementById('image').src = `css/images/${list[i][0]}`
+              document.getElementById('text').innerText = list[i][1]
+          })
+          document.querySelector('.left').addEventListener('click', () => {
+              i = i - 1
+              document.getElementById('image').src = `css/images/${list[i][0]}`
+              document.getElementById('text').innerText = list[i][1]
+          })
+      </script>
+
+  <h2 class="title">Pick Up Items</h2>
+      <div class="box_wrapper">
+        <section class="box_item">
+          <a href="item001.html">
+            <img src="./css/images/7.webp"  alt="" />
+            <h3>5Dmask</h3>
+          </a>
+        </section>
+        <section class="box_item">
+          <a href="item001.html">
+            <div class="image_wrapper"><img src="./css/images/4d-9.webp" alt="" /></div>
+            <h3>4Dmask</h3>
+          </a>
+        </section>
+        <section class="box_item">
+          <a href="item001.html">
+            <div class="image_wrapper"><img src="./css/images/a-6.webp" alt="" /></div>
+            <h3>3D-Atype</h3>
+          </a>
+        </section>
+
+
+</body>
+
 </html>

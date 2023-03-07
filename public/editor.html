@@ -1,178 +1,320 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>Ondairy</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>Ondairyu</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/9.16.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.16.0/firebase-performance-compat.js"></script>
+
     <!--　 fabric.jsの読込み　-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/451/fabric.js"></script>
-    
-</head>
-<body>
-    <div id="Circle" onclick="AddCircle()">●</div>
-    <div id="Rect" onclick="AddRect()">■</div>
-    <div id="Ellipse" onclick="AddEllipse()">●</div>
-    <div id="Triangle" onclick="AddTriangle()">▲</div>
-    <div id="Line" onclick="AddLine()">/</div>
 
-    <input id="target" type="file" multiple onchange="loadFile()">
-    <button type="button" onclick="changeMode()">編集モード</button>
-    <button onclick="AllClear()">全て削除</button>
-    <!--　色変更　-->
-    <div id = "ColorController">
-        <h3>色変更</h3>
-        <input type="color" id = "Color" onchange="changeColor()">
-    </div>
-    <!--　サイズ変更　-->
-    <div id="SizeController">
-        <h3>サイズ変更</h3>
-        <input type="range" id="SizeSlideBar" min="0" max="100" step="1" onchange="changeSize()">
-    </div>
-    <!--　アクティブオブジェクトの角度変更　-->
-    <div id="AngleController">
-        <h3>角度変更</h3>
-        <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
-    </div>
-    <!--　canvas要素を用意　-->
-    <canvas id="canvas" width="1920px" height="1080px" style="border:1px solid;"></canvas>
-    
-    <!--　テスト処理記述場　-->
-    <script type="text/javascript">
+        <script type="module" defer>
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+            import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+            import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
 
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyCYo7gqY3tezdXmfVbkypRd2eVZXPudPGc",
+                authDomain: "ih12b213-4.firebaseapp.com",
+                databaseURL: "https://ih12b213-4-default-rtdb.firebaseio.com",
+                projectId: "ih12b213-4",
+                storageBucket: "ih12b213-4.appspot.com",
+                messagingSenderId: "988142203119",
+                appId: "1:988142203119:web:eea1669d6d6401350e2b1a",
+                measurementId: "G-C80M7XW650"
+            };
+            firebase.initializeApp(firebaseConfig);
 
-    const AngleSlideBar = document.getElementById("AngleSlideBar");
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const db = getFirestore(app);
+            var auth = getAuth();
+            var user = auth.currentUser;
 
-    const color = document.getElementById("Color");
+            //サインインしていたらサインアウトを表示する
+            onAuthStateChanged(auth, (user) => {
+                let header  = document.querySelector('header');
 
-    //Canvasオブジェクトを作成
-    var canvas = new fabric.Canvas('canvas');
+                if (user) {
+                header.innerHTML   = `
+                    <a href="index.html"><button>トップ画面</button></a>
+                    <a href="editor.html"><button>編集画面</button></a>
+                    <a href="cart.html"><button>カート画面</button></a>
+                    <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>`;
+                console.log(user);
 
+                //サインアウトする
+                document.getElementById("signout").addEventListener("click", () => {
+                    signOut(auth).then(() => {
+                        console.log("successful");
+                        location.href = "./login.html"
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                })
+                    } else {
+                    console.log("Not Login");
+                    }
+                });
 
-    //以下処理
+            //キャンバスの描画内容をstorageにアップする
+            document.getElementById("add_cart").addEventListener("click", function (e) {
+                let canvas = document.getElementById("canvas");
+                e.preventDefault();
+                var uploads = [];
+                //ログインしてるかどうかで収納先を変える
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        let uid = user.uid;
+                        let now = new Date();
+                        var storageRef = firebase.storage().ref('form-uploaded/' + uid + "/" + now);
 
-    //円
-    function AddCircle(){
-        var circle = new fabric.Circle({
-            left: 50,
-            top: 50,
-            fill: color.value,
-            radius: 40
-        });
-        canvas.add(circle);
-    }
-    //四角
-    function AddRect(){
-        var c = new fabric.Rect({
-            left: 100,
-            top: 100,
-            fill: color.value,
-            width: 50,
-            height: 50
-        });
-        canvas.add(c);
-    }
-    //楕円
-    function AddEllipse(){
-        var ellipse = new fabric.Ellipse({
-            left: 150,
-            top: 150,
-            fill: color.value,
-            rx: 50,
-            ry: 30
-        });
-        canvas.add(ellipse);
-    }
-    //楕円
-    function AddLine(){
-        var l = new fabric.Line([100, 100, 200, 10], {//x,y,x,y
-            stroke: color.value
-        });
-        canvas.add(l);
-    }
-    function AddPolyline(){
-        var ellipse = new fabric.Polyline({
-            left: 150,
-            top: 150,
-            fill: color.value,
-            rx: 50,
-            ry: 30
-        });
-        canvas.add(ellipse);
-    }
-    //三角形
-    function AddTriangle(){
-        var ellipse = new fabric.Triangle({
-            width: 50,
-            height: 50,
-            fill: color.value,
-            left: 50,
-            top: 50
-        });
-        canvas.add(ellipse);
-    }
+                        addDoc(collection(db, "cart/" + uid + "/" + now), {
+                            ユーザーID: uid,
+                            canvas_make_time: now
+                        }).then(
+                            console.log("firestoreにアップ成功", storageRef)
+                        ).catch((error) => {
+                            console.log("firestoreにアップ失敗", error)
+                        });
+ //firestoreのフィールドに追加したい
+ //ログインしてない時の処理　一意のデータ作成->cartでそのデータを取得　 = アノニマスログイン　　cartでuidのフォルダ内の画像全て取得 listall
+                    } else {
+                        var storageRef = firebase.storage().ref('form-uploaded/' + "");
+                    }
+                    uploads.push(storageRef.putString(canvas.toDataURL("image/png"), "data_url"));
+                    console.log("storageにアップ成功")
+                });
 
-    //画像
-    function AddImage(u){
-        fabric.Image.fromURL(u, function(o) {
-            canvas.add(o);
-        });
-    }
+                Promise.all(uploads).then(function () {
+                    console.log("処理完了")
+                    //画像化したらカートページへ移動する
+                    location.href = "cart.html";
+                });
+            });
+        </script>
 
-    //file読み込み時処理
-    function loadFile(){
-        // フォームで選択された全ファイルを取得
-        var fls = event.target.files;
-        for( var i = 0,l = fls.length; l > i; i++ ) {
-            //ファイルリーダーオブジェクトの作成
-            fr = new FileReader();
-            fr.onload = function() {
-                u = this.result;
-                AddImage(u);
+        <style>
+            .canvas {
+                width: "100%";
+                height: "100%";
             }
-            fr.readAsDataURL(fls[i]);
-        }
-    }
+        </style>
+    </head>
+    <body>
+        <!-- canvasのサンプル
+            https://ics.media/tutorial-three/model_basic/
+        <script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
+        <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
+        -->
 
-    //キーアップイベント
-    document.addEventListener("keyup", function (e) {
-        // delete と backspaceが押されたら
-        if (e.keyCode == 8 |  e.keyCode == 46) {
-            //選択されているobject生成削除
-            // ##グループ選択されると削除出来ない問題有り  
-            activeObjectDelete();
+        <header id="header">
+            <a href="index.html"><button>トップ画面</button></a>
+            <a href="login.html"><button>ログイン</button></a>
+            <a href="editor.html"><button>編集画面</button></a>
+            <a href="cart.html"><button>カート画面</button></a>
+        </header>
+
+        <div id="Circle" onclick="AddCircle()">●</div>
+        <div id="Rect" onclick="AddRect()">■</div>
+        <div id="Ellipse" onclick="AddEllipse()">●</div>
+        <div id="Triangle" onclick="AddTriangle()">▲</div>
+        <div id="Line" onclick="AddLine()">/</div>
+
+        <input id="target" type="file" multiple onchange="loadFile()">
+        <button type="button" onclick="changeMode()">編集モード</button>
+        <button onclick="AllClear()">全て削除</button>
+        <!--　色変更　-->
+        <div id = "ColorController">
+            <h3>色変更</h3>
+            <input type="color" id = "Color" onchange="changeColor()">
+        </div>
+        <!--　線の太さ変更　-->
+        <div id="SizeController">
+            <h3>線の太さ変更</h3>
+            <input type="range" id="SizeSlideBar" min="0" max="100" step="1" onchange="changeSize()">
+        </div>
+        <!--　アクティブオブジェクトの角度変更　-->
+        <div id="AngleController">
+            <h3>角度変更</h3>
+            <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
+        </div>
+        <!-- 　マスクを選択　
+        <h3>マスクの種類を選択</h3>
+        <button type="button" onclick="uretan()">ウレタンマスク</button>
+        <a href="ウレタンマスク.png"></a>
+        <button type="button" onclick="fusyokufu()">不織布マスク</button>
+        <a href="不織布マスク.png"></a> -->
+        <!--　canvas要素を用意　-->
+        <canvas id="canvas" style="border:1px solid;"></canvas>
+        <!--　テスト処理記述場　-->
+        <script type="text/javascript">
+
+
+        const AngleSlideBar = document.getElementById("AngleSlideBar");
+
+        const color = document.getElementById("Color");
+
+        //Canvasオブジェクトを作成
+        var canvas = new fabric.Canvas('canvas');
+
+        //以下処理
+
+        //円
+        function AddCircle(){
+            var circle = new fabric.Circle({
+                left: 50,
+                top: 50,
+                fill: color.value,
+                radius: 40
+            });
+            canvas.add(circle);
         }
-    });
-    //アクティビティオブジェクトの取得
-    function getActiveObject(){
-        return canvas.getActiveObject()
-    }
-    //スポットオブジェクトの削除
-    function activeObjectDelete(){
-        canvas.remove(getActiveObject());
-    }
-    //描画or編集切り替え
-    function changeMode(){
-        o =  canvas.isDrawingMode ?  "編集モード" :  "描画モード"
-        canvas.isDrawingMode = !canvas.isDrawingMode;
-        event.target.innerHTML = o;
-    }
-    //色変更時のペン色変更
-    function changeColor(){
-        canvas.freeDrawingBrush.color = color.value;
-    }
-    //サイズ変更スライダー
-    function changeSize(){
-        canvas.freeDrawingBrush.width = event.target.value;
-        console.log(event.target.value)
-    }
-    //角度編集スライダー
-    function changeAngle(){
-        console.log(AngleSlideBar.value)
-        return AngleSlideBar.value;
-    }
-    //全削除
-    function AllClear(){
-        canvas.clear().renderAll()
-    }
-    </script>
-</body>
+        //四角
+        function AddRect(){
+            var c = new fabric.Rect({
+                left: 100,
+                top: 100,
+                fill: color.value,
+                width: 50,
+                height: 50
+            });
+            canvas.add(c);
+        }
+        //楕円
+        function AddEllipse(){
+            var ellipse = new fabric.Ellipse({
+                left: 150,
+                top: 150,
+                fill: color.value,
+                rx: 50,
+                ry: 30
+            });
+            canvas.add(ellipse);
+        }
+        //楕円
+        function AddLine(){
+            var l = new fabric.Line([100, 100, 200, 10], {//x,y,x,y
+                stroke: color.value
+            });
+            canvas.add(l);
+        }
+        function AddPolyline(){
+            var ellipse = new fabric.Polyline({
+                left: 150,
+                top: 150,
+                fill: color.value,
+                rx: 50,
+                ry: 30
+            });
+            canvas.add(ellipse);
+        }
+        //三角形
+        function AddTriangle(){
+            var ellipse = new fabric.Triangle({
+                width: 50,
+                height: 50,
+                fill: color.value,
+                left: 50,
+                top: 50
+            });
+            canvas.add(ellipse);
+        }
+
+        //画像
+        function AddImage(u){
+            fabric.Image.fromURL(u, function(o) {
+                canvas.add(o);
+            });
+        }
+
+        //file読み込み時処理
+        function loadFile(){
+            // フォームで選択された全ファイルを取得
+            var fls = event.target.files;
+            for( var i = 0,l = fls.length; l > i; i++ ) {
+                //ファイルリーダーオブジェクトの作成
+                fr = new FileReader();
+                fr.onload = function() {
+                    u = this.result;
+                    AddImage(u);
+                }
+                fr.readAsDataURL(fls[i]);
+            }
+        }
+
+        //キーアップイベント
+        document.addEventListener("keyup", function (e) {
+            // delete と backspaceが押されたら
+            if (e.keyCode == 8 |  e.keyCode == 46) {
+                //選択されているobject生成削除
+                // ##グループ選択されると削除出来ない問題有り
+                activeObjectDelete();
+            }
+        });
+        //アクティビティオブジェクトの取得
+        function getActiveObject(){
+            return canvas.getActiveObject()
+        }
+        //スポットオブジェクトの削除
+        function activeObjectDelete(){
+            canvas.remove(getActiveObject());
+        }
+        //描画or編集切り替え
+        function changeMode(){
+            o =  canvas.isDrawingMode ?  "編集モード" :  "描画モード"
+            canvas.isDrawingMode = !canvas.isDrawingMode;
+            event.target.innerHTML = o;
+        }
+        //色変更時のペン色変更
+        function changeColor(){
+            canvas.freeDrawingBrush.color = color.value;
+        }
+        //サイズ変更スライダー
+        function changeSize(){
+            canvas.freeDrawingBrush.width = event.target.value;
+            console.log(event.target.value)
+        }
+        //角度編集スライダー
+        function changeAngle(){
+            console.log(AngleSlideBar.value)
+            return AngleSlideBar.value;
+        }
+        //全削除
+        function AllClear(){
+            canvas.clear().renderAll()
+        }
+        </script>
+
+        <!-- canvasのサンプル
+            <canvas id="myCanvas"></canvas>
+        -->
+
+        <input id="add_cart" type="submit" value="このデザインをカートに追加する">
+
+        <script>
+
+        </script>
+    </body>
 </html>
