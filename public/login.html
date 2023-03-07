@@ -144,10 +144,12 @@
 
 
 <body>
-  <a href="index.html"><button>トップ画面</button></a>
-        <a href="login.html"><button>ログイン</button></a>
-        <a href="editor.html"><button>編集画面</button></a>
-        <a href="cart.html"><button>カート画面</button></a>
+  <header id="header">
+    <a href="index.html"><button>トップ画面</button></a>
+    <a href="login.html"><button>ログイン</button></a>
+    <a href="editor.html"><button>編集画面</button></a>
+    <a href="cart.html"><button>カート画面</button></a>
+  </header>
 
 	<main>
 		<div clas="login">
@@ -156,7 +158,7 @@
         <div id="error">
           <h3 id="error_code"></h3>
         </div>
-
+        <form>
 				<dev>
 
 					<p>メールアドレス</p>
@@ -175,13 +177,15 @@
 
 				</dev>
 				<br>
-				<button  id="login"name="act" value="ログイン・ログオン">ログイン・ログオン</button>
+        </form>
+        <br>
+				<button  id="login"name="act">ログイン・ログオン</button>
 
-			<br>
 
 		</div>
 		<div id="subcontents">
-			<button  id="pass_reset">パスワードを忘れた方はこちら</button>
+			<button  id="pass_reset">パスワードリセット</button>
+      <button id="google">Googleでログイン</button>
 
 		</div>
 

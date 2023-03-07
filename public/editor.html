@@ -51,27 +51,31 @@
             var auth = getAuth();
             var user = auth.currentUser;
 
-            //サインアウトする
-            document.getElementById("signout").addEventListener("click", () => {
-                signOut(auth).then(() => {
-                    console.log("successful");
-                    location.href = "./login.html"
-                }).catch((error) => {
-                    console.log(error);
+            //サインインしていたらサインアウトを表示する
+            onAuthStateChanged(auth, (user) => {
+                let header  = document.querySelector('header');
+
+                if (user) {
+                header.innerHTML   = `
+                    <a href="index.html"><button>トップ画面</button></a>
+                    <a href="editor.html"><button>編集画面</button></a>
+                    <a href="cart.html"><button>カート画面</button></a>
+                    <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>`;
+                console.log(user);
+
+                //サインアウトする
+                document.getElementById("signout").addEventListener("click", () => {
+                    signOut(auth).then(() => {
+                        console.log("successful");
+                        location.href = "./login.html"
+                    }).catch((error) => {
+                        console.log(error);
+                    })
                 })
-            })
-
-            // //サインインしていたらアカウント名を表示する
-            // onAuthStateChanged(auth, (user) => {
-            //     let h3   = document.querySelector('h3');
-
-            //     if (user) {
-            //     h3.innerText   = `${user.email}さんがログインしました`;
-            //     console.log(user);
-            //     } else {
-            //     console.log("Not Login");
-            //     }
-            // });
+                    } else {
+                    console.log("Not Login");
+                    }
+                });
 
             //キャンバスの描画内容をstorageにアップする
             document.getElementById("add_cart").addEventListener("click", function (e) {
@@ -104,10 +108,9 @@
 
                 Promise.all(uploads).then(function () {
                     console.log("処理完了")
+                    //画像化したらカートページへ移動する
+                    location.href = "cart.html";
                 });
-
-                //画像化したらカートページへ移動する
-                location.href = "cart.html";
             });
         </script>
 
@@ -126,13 +129,12 @@
         <script src="https://unpkg.com/three@0.137.4/examples/js/loaders/GLTFLoader.js"></script>
         -->
 
-        <a href="index.html"><button>トップ画面</button></a>
-        <a href="login.html"><button>ログイン</button></a>
-        <a href="editor.html"><button>編集画面</button></a>
-        <a href="cart.html"><button>カート画面</button></a>
-        <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
-
-        <!-- <h3>ログインは<a href="login.html">こちら</a>から</h3> -->
+        <header id="header">
+            <a href="index.html"><button>トップ画面</button></a>
+            <a href="login.html"><button>ログイン</button></a>
+            <a href="editor.html"><button>編集画面</button></a>
+            <a href="cart.html"><button>カート画面</button></a>
+        </header>
 
         <div id="Circle" onclick="AddCircle()">●</div>
         <div id="Rect" onclick="AddRect()">■</div>
@@ -158,12 +160,12 @@
             <h3>角度変更</h3>
             <input type="range" id="AngleSlideBar" min="0" max="360" step="1" onchange="changeAngle()">
         </div>
-        <!-- 　マスクを選択　-->
+        <!-- 　マスクを選択　
         <h3>マスクの種類を選択</h3>
         <button type="button" onclick="uretan()">ウレタンマスク</button>
         <a href="ウレタンマスク.png"></a>
         <button type="button" onclick="fusyokufu()">不織布マスク</button>
-        <a href="不織布マスク.png"></a>
+        <a href="不織布マスク.png"></a> -->
         <!--　canvas要素を用意　-->
         <canvas id="canvas" style="border:1px solid;"></canvas>
         <!--　テスト処理記述場　-->

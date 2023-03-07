@@ -6,7 +6,7 @@ body {
 }
 main{
 	text-align: center;
-    
+
 }
 
 hr{
@@ -32,7 +32,7 @@ input, textarea, select {
 }
 
 /* テキストフォームの設定 */
-input[type="text"], textarea {
+input[type="email"], textarea {
 	padding: 18px;
 	color: #000000ba;
 	border: solid 1.5px #9aeaea;
@@ -42,18 +42,39 @@ input[type="text"], textarea {
 }
 
 /* フォーカス時の色変更 */
-input[type="text"], textarea {
+input[type="email"], textarea {
 	outline: none;
 	transition: all .3s;
 }
-input[type="text"]:focus, textarea:focus {
+input[type="email"]:focus, textarea:focus {
+	box-shadow: 0 0 6px #cf9fffb1 ;
+	border: 1px solid #9aeaea;
+}
+
+
+
+input[type="email"], textarea {
+	padding: 18px;
+	color: #000000ba;
+	border: solid 1.5px #9aeaea;
+	margin: 3px 0;
+	width: 480px;
+	border-radius: 3px;
+}
+
+/* フォーカス時の色変更 */
+input[type="email"], textarea {
+	outline: none;
+	transition: all .3s;
+}
+input[type="email"]:focus, textarea:focus {
 	box-shadow: 0 0 6px #cf9fffb1 ;
 	border: 1px solid #9aeaea;
 }
 
 
 /* submitボタン */
-input[type="submit"] {
+input[ id="login"] {
   background: linear-gradient(120deg, #9aeaea, #cf9fffb1);
   background: -moz-linear-gradient(120deg, #9aeaea, #cf9fffb1);
   background: -webkit-linear-gradient(120deg, #9aeaea, #cf9fffb1);
@@ -68,8 +89,6 @@ input[type="submit"] {
 	cursor: pointer;/*カーソルの変更*/
 	outline:none;/*クリック時の枠線を消す*/
 }
-input[type="submit"]:hover {
+input[ id="login""]:hover {
 	background: #ded9dc;
 }
-
-
