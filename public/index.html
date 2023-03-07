@@ -56,17 +56,17 @@
           })
       })
 
-      //サインインしていたらアカウント名を表示する
-      onAuthStateChanged(auth, (user) => {
-        let h3   = document.querySelector('h3');
+      // //サインインしていたらアカウント名を表示する
+      // onAuthStateChanged(auth, (user) => {
+      //   let h3   = document.querySelector('h3');
 
-        if (user) {
-          h3.innerText   = `${user.email}さんがログインしました`;
-          console.log(user);
-        } else {
-          console.log("Not Login");
-        }
-      });
+      //   if (user) {
+      //     h3.innerText   = `${user.email}さんがログインしました`;
+      //     console.log(user);
+      //   } else {
+      //     console.log("Not Login");
+      //   }
+      // });
     </script>
 </head>
 
@@ -81,7 +81,7 @@
     <a href="cart.html"><button>カート画面</button></a>
     <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
 
-    <h3>新規登録は<a href="login.html">こちら</a>から</h3>
+    <!-- <h3>新規登録は<a href="login.html">こちら</a>から</h3> -->
     <footer></footer>
 
     <!-- Authenticationのサンプル

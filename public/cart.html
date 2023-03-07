@@ -70,19 +70,17 @@
             }
             };
 
-            //storageの画像を取得する
-            // Get the download URL
-
             onAuthStateChanged(auth, (user) => {
                     if (user) {
                         let uid = user.uid;
                         let now = new Date();
                         console.log(user);
 
-                      getDownloadURL(ref(storage, 'form-uploaded/' + uid))
+                      //storageの画像を取得する
+                      // Get the download URL
+                      getDownloadURL(ref(storage, 'form-uploaded/2NLbbj1v5QSxN31ZDSHOVJrLwU82/Fri Mar 03 2023 15:22:12 GMT+0900 (GMT+09:00)'))
                       .then((url) => {
-                          // `url` is the download URL for 'form-uploaded/スクリーンショット (0000).png'
-
+                          // `url` is the download URL for ''
                           // This can be downloaded directly:
                           const xhr = new XMLHttpRequest();
                           xhr.responseType = 'blob';
@@ -91,6 +89,8 @@
                           };
                           xhr.open('GET', url);
                           xhr.send();
+
+                          list.items[0].getDownloadURL();
 
                           // Or inserted into an <img> element
                           const img = document.getElementById('img');
@@ -141,6 +141,11 @@
 
 
       <body>
+        <a href="index.html"><button>トップ画面</button></a>
+        <a href="login.html"><button>ログイン</button></a>
+        <a href="editor.html"><button>編集画面</button></a>
+        <a href="cart.html"><button>カート画面</button></a>
+        <button class="p-4 bg-stone-300 rounded" id="signout">サインアウト</button>
         <main>
           <div class="basket">
             <div class="basket-labels">
