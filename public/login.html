@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="StyleSheet" href="common.css" />
-	<link rel="StyleSheet" href="css/login.css" />
-    <title>Ondairy</title>
+<html lang="jp">
+
+<head>
+	<meta http-equiv="content-type" content="text/html" charset="utf-8">
+	<title>login</title>
+	<link rel="StyleSheet" href="css/login.css">
+
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/9.16.0/firebase-app-compat.js"></script>
@@ -140,27 +140,53 @@
       })
 
     </script>
-  </head>
-  <body>
-    <a href="index.html"><button>トップ画面</button></a>
-    <a href="login.html"><button>ログイン</button></a>
-    <a href="editor.html"><button>編集画面</button></a>
-    <a href="cart.html"><button>カート画面</button></a>
+</head>
 
-    <div id="error">
-      <h3 id="error_code"></h3>
-    </div>
 
-    <div>
-      <label for="email">メールアドレス</label>
-      <input type="email" id="email" name="email">
-      <label for="pass">パスワード</label>
-      <input type="password" id="pass" name="pass" autocomplete="on">
-      <button id="login">ログイン・ログオン</button>
-    </div>
+<body>
+  <a href="index.html"><button>トップ画面</button></a>
+        <a href="login.html"><button>ログイン</button></a>
+        <a href="editor.html"><button>編集画面</button></a>
+        <a href="cart.html"><button>カート画面</button></a>
 
-    <button id="submit">新規登録</button>
-    <button id="pass_reset">パスワードリセット</button>
-    <button id="google">Googleでログイン</button>
-  </body>
+	<main>
+		<div clas="login">
+			<h1>LOGIN</h1>
+			<br>
+        <div id="error">
+          <h3 id="error_code"></h3>
+        </div>
+
+				<dev>
+
+					<p>メールアドレス</p>
+
+					<small id="notice-input-text-1" style="display: none; color: #ea5506;"> 【名前を入力してください】</small>
+					<input type="email" id="email" name="email" size="40" placeholder="入力..." name="InputText1">
+
+
+				</dev>
+				<dev>
+					<p>パスワード</p>
+
+					<small id="notice-input-text-1" style="display: none; color: #ea5506;"> 【名前を入力してください】</small>
+					<input type="pass" size="40" placeholder="入力..." name="InputText1" id="pass" name="pass" autocomplete="on">
+
+
+				</dev>
+				<br>
+				<button  id="login"name="act" value="ログイン・ログオン">ログイン・ログオン</button>
+
+			<br>
+
+		</div>
+		<div id="subcontents">
+			<button  id="pass_reset">パスワードを忘れた方はこちら</button>
+
+		</div>
+
+	</main>
+
+</body>
+
 </html>
